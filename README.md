@@ -19,7 +19,7 @@
   <a href="https://github.com/WJZ-P/LeetCodeJava/">
     <img src="pen.svg" alt="Logo" width="150" height="150">
   </a>
-  <h1 align="center">Stick Emoji</h1>
+  <h1 align="center">LeetCode Java</h1>
   <p align="center">
     <a href="https://github.com/WJZ-P/LeetCodeJava">查看Demo</a>
     ·
