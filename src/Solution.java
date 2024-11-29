@@ -1,16 +1,37 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.lang.reflect.Array;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 class Solution {
-    public int[] twoSum(int[] nums, int target) {
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
-        for (int i = 0; i < nums.length; i++) {
-            if (map.containsKey(target - nums[i]))//找到数字了
-                return new int[]{map.get(target - nums[i]), i};
-            else
-                map.put(nums[i], i);//记录下来
+    public static void main(String[] args) {
+        try (ServerSocket server = new ServerSocket(8888);
+             Socket socket = server.accept();
+             InputStream is = socket.getInputStream();
+             OutputStream os = socket.getOutputStream();
+
+             Scanner scanner = new Scanner(is)) {
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(os, "gbk"), true);
+            pw.println("你好啊，欢迎关注「沉默王二」 公众号，回复关键字「2048」 领取程序员进阶必读资料包");
+
+            boolean done = false;
+            while (!done && scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                System.out.println(line);
+
+                if ("2048".equals(line)) {
+                    done = true;
+                }
+            }
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return new int[0];
     }
+
 }
+
