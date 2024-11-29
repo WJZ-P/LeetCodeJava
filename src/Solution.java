@@ -1,37 +1,60 @@
-import java.io.*;
-import java.lang.reflect.Array;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.*;
-import java.util.concurrent.CopyOnWriteArrayList;
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.HashMap;
+//import java.util.List;
+//
+//class Solution {
+//    public List<List<String>> groupAnagrams(String[] strs) {
+//        //这里新建一个hashMap
+//        HashMap<String, ArrayList<String>> hashMap = new HashMap<>();
+//        for (String string : strs) {
+//            //遍历字符串数组
+//            char[] charStr = string.toCharArray();
+//            Arrays.sort(charStr);
+//            //排序好的字符串
+//            String sortedStr = new String(charStr);
+//            ArrayList<String> strList = hashMap.get(sortedStr);
+//            if (strList == null) {
+//                strList = new ArrayList<>();
+//                hashMap.put(sortedStr, strList);
+//            }
+//
+//            strList.add(string);
+//
+//
+//        }
+//        //hashMap不保证顺序，但是无所谓，题目不要求顺序
+//
+//        //现在全部存放好了，接下来需要的是输出！
+//        return new ArrayList<>(hashMap.values());
+//    }
+//}
 
-class Solution {
-    public static void main(String[] args) {
-        try (ServerSocket server = new ServerSocket(8888);
-             Socket socket = server.accept();
-             InputStream is = socket.getInputStream();
-             OutputStream os = socket.getOutputStream();
-
-             Scanner scanner = new Scanner(is)) {
-            PrintWriter pw = new PrintWriter(new OutputStreamWriter(os, "gbk"), true);
-            pw.println("你好啊，欢迎关注「沉默王二」 公众号，回复关键字「2048」 领取程序员进阶必读资料包");
-
-            boolean done = false;
-            while (!done && scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                System.out.println(line);
-
-                if ("2048".equals(line)) {
-                    done = true;
-                }
-            }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-}
-
+//import java.util.HashSet;
+//import java.util.Set;
+//
+//class Solution {
+//    public int longestConsecutive(int[] nums) {
+//        //这里使用哈希集合
+//        Set<Integer> set = new HashSet<>();
+//        for (int num : nums) {
+//            set.add(num);//先把元素插入
+//        }
+//        //接下来就开始查询
+//        int currentCount = 0;
+//        int currNum = 0;
+//        int max = 0;
+//        for (int number : set) {
+//            currNum = number;
+//            if (!set.contains(currNum - 1)) {//集合里面没有比这个小1的，说明是序列的开头
+//                currentCount++;//数字增加
+//                while (set.contains(++currNum)) {//如果集合里面有比这个大的
+//                    currentCount++;
+//                }
+//                max = Math.max(max, currentCount);//更新最大值
+//                currentCount=0;
+//            }
+//        }
+//        return max;
+//    }
+//}
