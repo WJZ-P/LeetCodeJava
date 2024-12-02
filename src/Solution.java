@@ -92,27 +92,39 @@
 //    }
 //}
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-
-class Solution {
-    public List<List<Integer>> threeSum(int[] nums) {
-        HashSet<List<Integer>> resultSet = new HashSet<>();
-        for (int i = 0; i < nums.length; i++) {
-            for (int j = i + 1; j < nums.length; j++) {
-                for (int k = j + 1; k < nums.length; k++) {
-                    if (nums[i] + nums[j] + nums[k] == 0) {
-                        int[] threeNums = new int[]{nums[i], nums[j], nums[k]};
-                        Arrays.sort(threeNums);
-                        List<Integer> list = Arrays.stream(threeNums).boxed().toList();
-                        resultSet.add(list);
-                    }
-                }
-            }
-        }
-
-        return new ArrayList<>(resultSet);
-    }
-}
+//import java.util.ArrayList;
+//import java.util.Arrays;
+//import java.util.HashSet;
+//import java.util.List;
+//
+//class Solution {
+//    public List<List<Integer>> threeSum(int[] nums) {
+//        List<List<Integer>> resultList = new ArrayList<>();
+//        //先对数组进行排序
+//        Arrays.sort(nums);
+//        //下面开始遍历查找
+//        for (int first = 0; first < nums.length - 2; first++) {
+//            //这是三元组的第一个数字
+//            if (first > 0 && nums[first] == nums[first - 1]) continue;
+//
+//            int target = -nums[first];//确认target
+//
+//            //接下来定位第三个数为数组的末尾，此时有对应关系，b+c=-a.又因为数组是排序好的，那么找三元组的过程中，
+//            //第三个指针只会往左，第二个指针只会往右。
+//            int third = nums.length - 1;
+//            for (int second = first + 1; second < third; second++) {
+//                //下面开始找，要先保证second不重复
+//                if (second > first + 1 && nums[second] == nums[second - 1]) continue;//说明这个second会重复，就不找了
+//                while (nums[second] + nums[third] > target && second < third) {
+//                    //说明后两个数字加起来不满足条件
+//                    third--;
+//                }
+//                //现在third索引位置的元素大小就是正常的
+//                if (nums[second] + nums[third] == target && second != third) {
+//                    resultList.add(Arrays.asList(nums[first], nums[second], nums[third]));
+//                }
+//            }
+//        }
+//        return new ArrayList<>(resultList);
+//    }
+//}
