@@ -58,3 +58,61 @@
 //        return max;
 //    }
 //}
+
+//class Solution {
+//    public void moveZeroes(int[] nums) {
+//        int lastNotZeroNumIndex=0;
+//        for(int i=0;i<nums.length;i++){
+//            if(nums[i]!=0){
+//                nums[lastNotZeroNumIndex]=nums[i];
+//                lastNotZeroNumIndex++;
+//            }
+//        }
+//        for(int i=lastNotZeroNumIndex;i<nums.length;i++){
+//            nums[i]=0;
+//        }
+//    }
+//}
+
+//class Solution {
+//    public int maxArea(int[] height) {
+//        int left = 0, right = height.length - 1;
+//        //上面定义了双指针。
+//        int maxArea = 0;
+//        while (left != right) {
+//            int newArea = Math.min(height[left], height[right]) * (right - left);
+//            if (newArea > maxArea) maxArea = newArea;
+//            //上面进行最大面积的更新。
+//            if(height[left]>height[right])//左边的高度比右边高，应该右边往左边靠拢
+//                right--;
+//            else
+//                left++;
+//        }
+//        return maxArea;
+//    }
+//}
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+
+class Solution {
+    public List<List<Integer>> threeSum(int[] nums) {
+        HashSet<List<Integer>> resultSet = new HashSet<>();
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                for (int k = j + 1; k < nums.length; k++) {
+                    if (nums[i] + nums[j] + nums[k] == 0) {
+                        int[] threeNums = new int[]{nums[i], nums[j], nums[k]};
+                        Arrays.sort(threeNums);
+                        List<Integer> list = Arrays.stream(threeNums).boxed().toList();
+                        resultSet.add(list);
+                    }
+                }
+            }
+        }
+
+        return new ArrayList<>(resultSet);
+    }
+}
