@@ -128,3 +128,10 @@
 //        return new ArrayList<>(resultList);
 //    }
 //}
+
+class Solution {
+    public int trap(int[] height) {
+
+    return 1;
+    }
+}
