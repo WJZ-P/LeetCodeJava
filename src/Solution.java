@@ -129,9 +129,53 @@
 //    }
 //}
 
-class Solution {
-    public int trap(int[] height) {
+import java.util.Stack;
 
-    return 1;
+//class Solution {
+//    public int trap(int[] height) {
+//        int leftMax = 0;
+//        int rightMax = 0;
+//        int leftIndex = 0;
+//        int rightIndex = height.length - 1;
+//        int result = 0;
+//        while (leftIndex < rightIndex) {
+//            //先更新最大值
+//            leftMax = Math.max(leftMax, height[leftIndex]);
+//            rightMax = Math.max(rightMax, height[rightIndex]);
+//
+//            if (height[leftIndex]<height[rightIndex]){
+//                result+=leftMax-height[leftIndex];
+//                leftIndex++;
+//            }
+//            else{
+//                result+=rightMax-height[rightIndex];
+//                rightIndex--;
+//            }
+//        }
+//        return result;
+//    }
+//}
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        Stack<Character> stack = new Stack<Character>();
+        int max = 0;
+        int index = 0;
+        char[] cs = s.toCharArray();
+        while (index != s.length()) {
+            for (int i = index; i < s.length(); i++) {
+                //先查看当前栈内有无相同元素
+                if (stack.contains(cs[i])) {
+                    //如果有
+                    max = Math.max(max, stack.size());
+                    stack.clear();
+                    index++;
+                    break;
+                } else {
+                    stack.push(cs[i]);
+                }
+            }
+        }
+        return Math.max(max, stack.size());
     }
 }
