@@ -129,7 +129,7 @@
 //    }
 //}
 
-import java.util.Stack;
+import java.util.*;
 
 //class Solution {
 //    public int trap(int[] height) {
@@ -156,26 +156,85 @@ import java.util.Stack;
 //    }
 //}
 
-class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        Stack<Character> stack = new Stack<Character>();
-        int max = 0;
-        int index = 0;
-        char[] cs = s.toCharArray();
-        while (index != s.length()) {
-            for (int i = index; i < s.length(); i++) {
-                //先查看当前栈内有无相同元素
-                if (stack.contains(cs[i])) {
-                    //如果有
-                    max = Math.max(max, stack.size());
-                    stack.clear();
-                    index++;
-                    break;
-                } else {
-                    stack.push(cs[i]);
-                }
-            }
-        }
-        return Math.max(max, stack.size());
-    }
-}
+//class Solution {
+//    public List<Integer> findAnagrams(String s, String p) {
+//        List<Integer> result = new ArrayList<>();
+//        if (p.length() > s.length()) return result;
+//        //用数组替代
+//        int[] stand = new int[26];
+//        int[] window = new int[26];
+//        // 初始化标准表和第一个窗口
+//        for (int i = 0; i < p.length(); i++) {
+//            stand[p.charAt(i) - 'a']++;
+//            window[s.charAt(i) - 'a']++;
+//        }
+//        if (Arrays.equals(stand, window)) result.add(0);
+//        //开始滑动窗口
+//        for (int i = p.length(); i < s.length(); i++) {
+//            //窗口右移，加新的字母，减去旧的字母
+//            window[s.charAt(i) - 'a']++;
+//            window[s.charAt(i - p.length()) - 'a']--;
+//            if (Arrays.equals(stand, window)) result.add(i - p.length() + 1);
+//        }
+//
+//        return result;
+//    }
+//}
+
+//class NumArray {
+//    private int[] nums;
+//
+//    public NumArray(int[] nums) {
+//        this.nums = nums;
+//    }
+//
+//    public int sumRange(int left, int right) {
+//        int result = 0;
+//        for (int i = left; i <= right; i++) {
+//            result += nums[i];
+//        }
+//        return result;
+//    }
+//}
+
+//class Solution {
+//    public int subarraySum(int[] nums, int k) {
+//        int count = 0;
+//        int s = 0;//这个是前缀和
+//        Map<Integer, Integer> map = new HashMap<>(nums.length + 1);
+//        map.put(0, 1);//前缀和s[0]单独统计
+//        for (int x : nums) {
+//            //统计前缀和
+//            s += x;
+//            //统计s[i]-s[j]=k的个数
+//            count += map.getOrDefault(s - k, 0);
+//            map.merge(s, 1, Integer::sum);
+//        }
+//        return count;
+//    }
+//}
+
+//class Solution {
+//    public int[] maxSlidingWindow(int[] nums, int k) {
+//        //滑动窗口最大值，应使用双端队列
+//        int[] result = new int[nums.length - k + 1];
+//        Deque<Integer> deque = new ArrayDeque<>();
+//        //循环处理
+//        for (int i = 0; i < nums.length; i++) {
+//            //处理入队
+//            while (!deque.isEmpty() && nums[deque.getLast()] < nums[i]) {
+//                deque.removeLast();
+//            }
+//            deque.addLast(i);//索引放入
+//            if (i - deque.getFirst() >= k) {
+//                //说明最大值已经滑出了
+//                deque.removeFirst();
+//            }
+//            //处理结果
+//            if (i >= k - 1) {
+//                result[i - k + 1] = nums[deque.getFirst()];
+//            }
+//        }
+//        return result;
+//    }
+//}
