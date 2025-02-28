@@ -238,3 +238,62 @@ import java.util.*;
 //        return result;
 //    }
 //}
+
+//class Solution {
+//    public String minWindow(String s, String t) {
+//        char[] chars = s.toCharArray();
+//        int[] cnt = new int[128];
+//        int ansLeft = -1;
+//        int ansRight = s.length() - 1;
+//        int less = 0;//表示当前子串中某个字符少于标准串的该字符的数量
+//        for (char c : t.toCharArray()) {
+//            if (cnt[c] == 0) {
+//                less++;
+//            }
+//            cnt[c]++;
+//        }
+//
+//        int left = 0;
+//        for (int right = 0; right < s.length(); right++) {
+//            cnt[chars[right]]--;//右边字符移入，则计数减少
+//            //减少到0的时候就说明这个字符覆盖了
+//            if (cnt[chars[right]] == 0) {
+//                //那么未覆盖数-1；
+//                less--;
+//            }
+//            //判断是否全覆盖
+//            while (less == 0) {
+//                //如果全覆盖了，判断当前左右差值是否比已查到最小的小
+//                if (right - left < ansRight - ansLeft) {
+//                    ansRight = right;
+//                    ansLeft = left;
+//                }
+//                //左侧移出去之前要先判断
+//                char leftChar = chars[left];
+//                if (cnt[leftChar] == 0) {
+//                    less++;
+//                }
+//                cnt[leftChar]++;
+//                left++;
+//            }
+//        }
+//        return ansLeft >= 0 ? s.substring(ansLeft, ansRight + 1) : "";
+//    }
+//}
+
+//class Solution {
+//    public int maxSubArray(int[] nums) {
+//        //这道题用最小前缀和做。
+//        int ans = Integer.MIN_VALUE;
+//        int preSum = 0;
+//        int minPreSum = 0;
+//        for (int num : nums) {
+//            preSum += num;
+//            //更新结果
+//            ans = Math.max(ans, preSum - minPreSum);
+//            //维护最小前缀和
+//            minPreSum = Math.min(preSum, minPreSum);
+//        }
+//        return ans;
+//    }
+//}
