@@ -297,3 +297,23 @@ import java.util.*;
 //        return ans;
 //    }
 //}
+
+
+class Solution {
+    public int[][] merge(int[][] intervals) {
+        //现在就是按照子元素的左端点排序好了
+        Arrays.sort(intervals, (p, q) -> p[0] - q[0]);
+        //创造一个新的数组
+        List<int[]> ans = new ArrayList<>();
+        for (int[] element : intervals) {
+            int ansSize = ans.size();
+            if (ansSize > 0 && element[0] <= ans.get(ansSize - 1)[1]) {
+                //说明当前数组的开始小于结果数组的结束，说明是可以合并的
+                ans.get(ansSize - 1)[1] = Math.max(element[1], ans.get(ansSize - 1)[1]);
+            } else {
+                ans.add(element);
+            }
+        }
+        return ans.toArray(new int[ans.size()][]);
+    }
+}
