@@ -367,3 +367,100 @@ import java.util.*;
 //        return preMulti;
 //    }
 //}
+
+//class Solution {
+//    public int firstMissingPositive(int[] nums) {
+//        //这题要用到原地哈希
+//        for (int i = 0; i < nums.length; i++) {
+//            while (nums[i] > 0 && nums[i] < nums.length && nums[i] != nums[nums[i] - 1]) {
+//                int temp = nums[nums[i] - 1];
+//                nums[nums[i] - 1] = nums[i];
+//                nums[i] = temp;
+//            }
+//        }
+//        //开始找数字吧
+//        for (int i = 0; i < nums.length; i++) {
+//            if (nums[i] != i + 1) return i + 1;
+//        }
+//        return nums.length + 1;
+//    }
+//}
+
+//class Solution {
+//    public void setZeroes(int[][] matrix) {
+//        int m = matrix.length, n = matrix[0].length;
+//        boolean col0 = false;
+//
+//        // 检查第一列是否有 0
+//        for (int i = 0; i < m; i++) {
+//            if (matrix[i][0] == 0) {
+//                col0 = true;
+//                break;
+//            }
+//        }
+//
+//        // 检查第一行是否有 0
+//        for (int j = 0; j < n; j++) {
+//            if (matrix[0][j] == 0) {
+//                matrix[0][0] = 0;
+//                break;
+//            }
+//        }
+//
+//        // 标记（从 1 开始）
+//        for (int i = 1; i < m; i++) {
+//            for (int j = 1; j < n; j++) {
+//                if (matrix[i][j] == 0) {
+//                    matrix[i][0] = 0;
+//                    matrix[0][j] = 0;
+//                }
+//            }
+//        }
+//
+//        // 先处理内部（除第一行第一列）
+//        for (int i = 1; i < m; i++) {
+//            for (int j = 1; j < n; j++) {
+//                if (matrix[i][0] == 0 || matrix[0][j] == 0) {
+//                    matrix[i][j] = 0;
+//                }
+//            }
+//        }
+//
+//        // 处理第一行
+//        if (matrix[0][0] == 0) {
+//            for (int j = 0; j < n; j++) {
+//                matrix[0][j] = 0;
+//            }
+//        }
+//
+//        // 处理第一列
+//        if (col0) {
+//            for (int i = 0; i < m; i++) {
+//                matrix[i][0] = 0;
+//            }
+//        }
+//    }
+//}
+
+
+//class Solution {
+//    public void rotate(int[][] matrix) {
+//        //先上下反转，然后左对角线反转就行
+//        int n = matrix.length;
+//        for (int i = 0; i < n / 2; i++) {
+//            for (int j = 0; j < n; j++) {
+//                int temp = matrix[i][j];
+//                matrix[i][j] = matrix[n - 1 - i][j];
+//                matrix[n - 1 - i][j] = temp;
+//            }
+//        }
+//        //做\这样的反转
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < i; j++) {
+//                int temp = matrix[i][j];
+//                matrix[i][j] = matrix[j][i];
+//                matrix[j][i] = temp;
+//            }
+//        }
+//    }
+//}
