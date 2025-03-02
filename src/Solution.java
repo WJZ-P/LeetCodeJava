@@ -299,21 +299,71 @@ import java.util.*;
 //}
 
 
-class Solution {
-    public int[][] merge(int[][] intervals) {
-        //现在就是按照子元素的左端点排序好了
-        Arrays.sort(intervals, (p, q) -> p[0] - q[0]);
-        //创造一个新的数组
-        List<int[]> ans = new ArrayList<>();
-        for (int[] element : intervals) {
-            int ansSize = ans.size();
-            if (ansSize > 0 && element[0] <= ans.get(ansSize - 1)[1]) {
-                //说明当前数组的开始小于结果数组的结束，说明是可以合并的
-                ans.get(ansSize - 1)[1] = Math.max(element[1], ans.get(ansSize - 1)[1]);
-            } else {
-                ans.add(element);
-            }
-        }
-        return ans.toArray(new int[ans.size()][]);
-    }
-}
+//class Solution {
+//    public int[][] merge(int[][] intervals) {
+//        //现在就是按照子元素的左端点排序好了
+//        Arrays.sort(intervals, (p, q) -> p[0] - q[0]);
+//        //创造一个新的数组
+//        List<int[]> ans = new ArrayList<>();
+//        for (int[] element : intervals) {
+//            int ansSize = ans.size();
+//            if (ansSize > 0 && element[0] <= ans.get(ansSize - 1)[1]) {
+//                //说明当前数组的开始小于结果数组的结束，说明是可以合并的
+//                ans.get(ansSize - 1)[1] = Math.max(element[1], ans.get(ansSize - 1)[1]);
+//            } else {
+//                ans.add(element);
+//            }
+//        }
+//        return ans.toArray(new int[ans.size()][]);
+//    }
+//}
+
+
+//class Solution {
+//    public void rotate(int[] nums, int k) {
+//        k %= nums.length;
+//
+//        //先进行数组的反转
+//        int right = nums.length - 1;
+//        for (int left = 0; left < right; left++) {
+//            int temp = nums[left];
+//            nums[left] = nums[right];
+//            nums[right] = temp;
+//            right--;
+//        }
+//
+//        //然后继续反转，0-k-1和k-n反转
+//        right = k - 1;
+//        for (int left = 0; left < right; left++) {
+//            int temp = nums[left];
+//            nums[left] = nums[right];
+//            nums[right] = temp;
+//            right--;
+//        }
+//        right = nums.length - 1;
+//        for (int left = k; left < right; left++) {
+//            int temp = nums[left];
+//            nums[left] = nums[right];
+//            nums[right] = temp;
+//            right--;
+//        }
+//    }
+//}
+
+//class Solution {
+//    public int[] productExceptSelf(int[] nums) {
+//        //维护一个前缀积
+//        int[] preMulti = new int[nums.length];
+//        preMulti[0] = 1;
+//        for (int i = 1; i < nums.length; i++) {
+//            preMulti[i] = nums[i - 1] * preMulti[i - 1];
+//        }
+//        int x = 1;
+//        for (int i = nums.length - 1; i >= 0; i--) {
+//            preMulti[i] *= x;
+//            x *= nums[i];
+//        }
+//
+//        return preMulti;
+//    }
+//}
