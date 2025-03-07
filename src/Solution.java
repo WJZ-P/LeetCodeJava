@@ -464,3 +464,86 @@ import java.util.*;
 //        }
 //    }
 //}
+
+
+//class Solution {
+//    public boolean searchMatrix(int[][] matrix, int target) {
+//        //右上角开始是一个二叉搜索树
+//        int pointRow = 0;
+//        int pointCol = matrix[0].length - 1;
+//
+//        while (pointRow < matrix.length && pointCol >= 0) {
+//            if (matrix[pointRow][pointCol] == target)
+//                return true;
+//
+//            //判断往左还是往右
+//            if (matrix[pointRow][pointCol] < target) {
+//                pointRow++;
+//            } else {
+//                pointCol--;
+//            }
+//
+//        }
+//        return false;
+//    }
+//}
+
+//public class Solution {
+//    public static class ListNode {
+//        int val;
+//        ListNode next;
+//
+//        ListNode(int x) {
+//            val = x;
+//            next = null;
+//        }
+//    }
+//
+//    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+//        Map<ListNode, Integer> map = new HashMap<>();
+//        while (headA != null) {
+//            map.put(headA, headA.val);
+//            headA = headA.next;
+//        }
+//        //A节点全部进入，然后遍历B节点，查看哈希是否存在，存在即为正确
+//        while (headB != null) {
+//            if (map.containsKey(headB)) {
+//                return headB;
+//            }
+//            headB = headB.next;
+//        }
+//        return null;
+//    }
+//}
+
+//class Solution {
+//    public static class ListNode {
+//        int val;
+//        ListNode next;
+//
+//        ListNode() {
+//        }
+//
+//        ListNode(int val) {
+//            this.val = val;
+//        }
+//
+//        ListNode(int val, ListNode next) {
+//            this.val = val;
+//            this.next = next;
+//        }
+//    }
+//
+//    public ListNode reverseList(ListNode head) {
+//        ListNode prev = null;
+//        ListNode current = head;
+//        while (current != null) {
+//            ListNode next = current.next;
+//            current.next = prev;
+//            prev = current;
+//            current = next;
+//        }
+//        return prev;
+//    }
+//}
+
