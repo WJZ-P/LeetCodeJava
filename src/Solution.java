@@ -595,33 +595,41 @@ public class Solution {
         }
     }
 
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
-        if (list1 == null) return list2;
-        if (list2 == null) return list1;
-
-        //都不为空了，先整理出首个节点
-        ListNode node = list1.val < list2.val ? list1 : list2;
-        ListNode startNode = new ListNode(-1);
-        ListNode currentNode = startNode;
-
-        while (list1 != null && list2 != null) {
-            if (list1.val < list2.val) {
-                currentNode.next = list1;
-                list1 = list1.next;
-            } else {
-                currentNode.next = list2;
-                list2 = list2.next;
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        //设置一个进位数字
+        int carry = 0;
+        ListNode node = new ListNode(0);
+        ListNode head = node;
+        while (l1 != null || l2 != null || carry != 0) {
+            //还可以继续写入
+            node.next = new ListNode(0);
+            node = node.next;
+            //下面进行两个节点的和运算
+            int x1, x2;
+            if (l1 == null)
+                x1 = 0;
+            else {
+                x1 = l1.val;
+                l1 = l1.next;
             }
-            currentNode=currentNode.next;
+            if (l2 == null)
+                x2 = 0;
+            else {
+                x2 = l2.val;
+                l2 = l2.next;
+            }
+            int sum = carry + x1 + x2;
+
+            //下面对当前节点的值做处理
+            if (sum >= 10) {//要往前进位了
+                carry = sum / 10;
+                node.val = sum % 10;
+            } else {//不需要进位
+                carry = 0;
+                node.val = sum;
+            }
         }
-        if (list1 != null) {
-            currentNode.next = list1; // 如果 list1 还有剩余节点，直接连接到末尾
-            currentNode=currentNode.next;
-        }
-        if (list2 != null) {
-            currentNode.next = list2; // 如果 list2 还有剩余节点，直接连接到末尾
-            currentNode=currentNode.next;
-        }
-        return startNode.next;
+        if (head.next == null) return new ListNode(0);
+        return head.next;
     }
 }
