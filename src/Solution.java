@@ -595,41 +595,35 @@ public class Solution {
         }
     }
 
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        //设置一个进位数字
-        int carry = 0;
-        ListNode node = new ListNode(0);
-        ListNode head = node;
-        while (l1 != null || l2 != null || carry != 0) {
-            //还可以继续写入
-            node.next = new ListNode(0);
-            node = node.next;
-            //下面进行两个节点的和运算
-            int x1, x2;
-            if (l1 == null)
-                x1 = 0;
-            else {
-                x1 = l1.val;
-                l1 = l1.next;
-            }
-            if (l2 == null)
-                x2 = 0;
-            else {
-                x2 = l2.val;
-                l2 = l2.next;
-            }
-            int sum = carry + x1 + x2;
-
-            //下面对当前节点的值做处理
-            if (sum >= 10) {//要往前进位了
-                carry = sum / 10;
-                node.val = sum % 10;
-            } else {//不需要进位
-                carry = 0;
-                node.val = sum;
-            }
+    public ListNode reverseKGroup(ListNode head, int k) {
+        if (head == null) return null;
+        //判断是否需要反转
+        int count = 0;
+        ListNode temp=head;
+        while (temp != null && count < k) {
+            temp = temp.next;
+            count++;
         }
-        if (head.next == null) return new ListNode(0);
-        return head.next;
+        if (count < k) return head;
+
+        ListNode newHead=reverse(head,k);
+        head.next=reverseKGroup(temp,k);
+        return newHead;
+    }
+    //反转链表,返回的是反转后的头节点
+    private ListNode reverse(ListNode head, int k) {
+        if (head == null) {
+            return null;
+        }
+        ListNode pre = null;
+        ListNode cur = head;
+        while (k > 0) {
+            ListNode next=cur.next;
+            cur.next=pre;
+            pre=cur;
+            cur=next;
+            k--;
+        }
+        return pre;
     }
 }
