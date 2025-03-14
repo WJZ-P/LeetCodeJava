@@ -585,45 +585,53 @@ import java.util.*;
 //}
 
 public class Solution {
-    class ListNode {
+    public class ListNode {
         int val;
         ListNode next;
 
-        ListNode(int x) {
-            val = x;
-            next = null;
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
         }
     }
 
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if (head == null) return null;
-        //判断是否需要反转
-        int count = 0;
-        ListNode temp=head;
-        while (temp != null && count < k) {
-            temp = temp.next;
-            count++;
-        }
-        if (count < k) return head;
-
-        ListNode newHead=reverse(head,k);
-        head.next=reverseKGroup(temp,k);
-        return newHead;
+    public ListNode mergeKLists(ListNode[] lists) {
+        return mergeKLists(lists, 0, lists.length);
     }
-    //反转链表,返回的是反转后的头节点
-    private ListNode reverse(ListNode head, int k) {
-        if (head == null) {
-            return null;
+
+    private ListNode mergeKLists(ListNode[] lists, int i, int j) {//合并i到j-1的列表
+        //合并给定区间的链表
+        int m = j - i;
+        if (m == 0) return null;
+        if (m == 1) return lists[i];
+
+        ListNode left = mergeKLists(lists, i, i + m / 2);
+        ListNode right = mergeKLists(lists, i + m / 2, j);
+        return mergeTwoLists(left, right);
+    }
+
+    private ListNode mergeTwoLists(ListNode node1, ListNode node2) {
+        //合并两个链表,每个链表都是有序的
+        ListNode dummy = new ListNode();
+        ListNode cur = dummy;
+        while (node1 != null && node2 != null) {
+            if (node1.val < node2.val) {
+                cur.next = node1;
+                node1 = node1.next;
+            } else {
+                cur.next = node2;
+                node2 = node2.next;
+            }
+            cur = cur.next;
         }
-        ListNode pre = null;
-        ListNode cur = head;
-        while (k > 0) {
-            ListNode next=cur.next;
-            cur.next=pre;
-            pre=cur;
-            cur=next;
-            k--;
-        }
-        return pre;
+        cur.next = node1 != null ? node1 : node2;
+        return dummy.next;
     }
 }
