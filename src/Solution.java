@@ -584,54 +584,108 @@ import java.util.*;
 //
 //}
 
-public class Solution {
-    public class ListNode {
+//public class Solution {
+//    public class ListNode {
+//        int val;
+//        ListNode next;
+//
+//        ListNode() {
+//        }
+//
+//        ListNode(int val) {
+//            this.val = val;
+//        }
+//
+//        ListNode(int val, ListNode next) {
+//            this.val = val;
+//            this.next = next;
+//        }
+//    }
+//
+//    public ListNode mergeKLists(ListNode[] lists) {
+//        return mergeKLists(lists, 0, lists.length);
+//    }
+//
+//    private ListNode mergeKLists(ListNode[] lists, int i, int j) {//合并i到j-1的列表
+//        //合并给定区间的链表
+//        int m = j - i;
+//        if (m == 0) return null;
+//        if (m == 1) return lists[i];
+//
+//        ListNode left = mergeKLists(lists, i, i + m / 2);
+//        ListNode right = mergeKLists(lists, i + m / 2, j);
+//        return mergeTwoLists(left, right);
+//    }
+//
+//    private ListNode mergeTwoLists(ListNode node1, ListNode node2) {
+//        //合并两个链表,每个链表都是有序的
+//        ListNode dummy = new ListNode();
+//        ListNode cur = dummy;
+//        while (node1 != null && node2 != null) {
+//            if (node1.val < node2.val) {
+//                cur.next = node1;
+//                node1 = node1.next;
+//            } else {
+//                cur.next = node2;
+//                node2 = node2.next;
+//            }
+//            cur = cur.next;
+//        }
+//        cur.next = node1 != null ? node1 : node2;
+//        return dummy.next;
+//    }
+//}
+
+//class LRUCache {
+//    private int capacity;
+//    private Map<Integer, Integer> map;
+//
+//    public LRUCache(int capacity) {
+//        this.capacity = capacity;
+//        map = new LinkedHashMap<>(capacity, 0.75f, true);
+//    }
+//
+//    public int get(int key) {
+//        Integer value = map.get(key);
+//        return value == null ? -1 : value;
+//    }
+//
+//    public void put(int key, int value) {
+//        map.put(key, value);
+//        if (map.size() > capacity) {
+//            map.remove(map.keySet().iterator().next());
+//        }
+//    }
+//}
+
+class Solution {
+    public class TreeNode {
         int val;
-        ListNode next;
+        TreeNode left;
+        TreeNode right;
 
-        ListNode() {
+        TreeNode() {
         }
 
-        ListNode(int val) {
+        TreeNode(int val) {
             this.val = val;
         }
 
-        ListNode(int val, ListNode next) {
+        TreeNode(int val, TreeNode left, TreeNode right) {
             this.val = val;
-            this.next = next;
+            this.left = left;
+            this.right = right;
         }
     }
 
-    public ListNode mergeKLists(ListNode[] lists) {
-        return mergeKLists(lists, 0, lists.length);
-    }
-
-    private ListNode mergeKLists(ListNode[] lists, int i, int j) {//合并i到j-1的列表
-        //合并给定区间的链表
-        int m = j - i;
-        if (m == 0) return null;
-        if (m == 1) return lists[i];
-
-        ListNode left = mergeKLists(lists, i, i + m / 2);
-        ListNode right = mergeKLists(lists, i + m / 2, j);
-        return mergeTwoLists(left, right);
-    }
-
-    private ListNode mergeTwoLists(ListNode node1, ListNode node2) {
-        //合并两个链表,每个链表都是有序的
-        ListNode dummy = new ListNode();
-        ListNode cur = dummy;
-        while (node1 != null && node2 != null) {
-            if (node1.val < node2.val) {
-                cur.next = node1;
-                node1 = node1.next;
-            } else {
-                cur.next = node2;
-                node2 = node2.next;
-            }
-            cur = cur.next;
-        }
-        cur.next = node1 != null ? node1 : node2;
-        return dummy.next;
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        if (root == null) return list;
+        else list = inorderTraversal(root.left);//左边遍历完成
+        list.add(root.val);
+        //然后遍历右边
+        //右遍历的结果插入本来的列表
+        list.addAll(inorderTraversal(root.right));
+        return list;
     }
 }
