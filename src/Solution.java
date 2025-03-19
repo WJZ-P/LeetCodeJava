@@ -678,11 +678,35 @@ class Solution {
         }
     }
 
-    public int maxDepth(TreeNode root) {
+    public int diameterOfBinaryTree(TreeNode root) {
+        //二叉树的直径，实际上就是求左右子树的深度的最大值，递归
         if (root == null) return 0;
+        //递归查询左右子树深度的最大值
+        return 1 + Math.max(diameterOfBinaryTree(root.left), diameterOfBinaryTree(root.right));
+    }
 
-        if (root.left == null && root.right == null) return 1;
+    //检查二叉树是否是对称的
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return isSymmetric(root.left, root.right);
+    }
 
-        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
+    public boolean isSymmetric(TreeNode left, TreeNode right) {
+        if (left == null && right == null) return true;
+        if (left == null || right == null) return false;
+        if (left.val != right.val) return false;
+        return isSymmetric(left.left, right.right) &&
+                isSymmetric(left.right, right.left);
+    }
+
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        TreeNode temp = root.left;
+        //交换左右子节点
+        root.left = root.right;
+        root.right = temp;
+        root.left = invertTree(root.left);//继续交换孩子节点
+        root.right = invertTree(temp);
+        return root;
     }
 }
