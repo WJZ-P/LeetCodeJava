@@ -678,14 +678,11 @@ class Solution {
         }
     }
 
-    public List<Integer> inorderTraversal(TreeNode root) {
-        List<Integer> list = new ArrayList<>();
-        if (root == null) return list;
-        else list = inorderTraversal(root.left);//左边遍历完成
-        list.add(root.val);
-        //然后遍历右边
-        //右遍历的结果插入本来的列表
-        list.addAll(inorderTraversal(root.right));
-        return list;
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+
+        if (root.left == null && root.right == null) return 1;
+
+        return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));
     }
 }
