@@ -129,6 +129,8 @@
 //    }
 //}
 
+import com.sun.source.tree.Tree;
+
 import java.util.*;
 
 //class Solution {
@@ -678,11 +680,84 @@ class Solution {
         }
     }
 
+    int currentNum;
+    int result;
+
+    public int kthSmallest(TreeNode root, int k) {
+        currentNum = k;
+        midOrder(root);
+        return result;
+    }
+
+    private void midOrder(TreeNode root) {
+        if (root == null) return;
+        midOrder(root.left);//先遍历左子节点
+        if (--currentNum == 0) {
+            result = root.val;
+            return;
+        }//然后遍历自己的
+        midOrder(root.right);//再遍历右节点
+    }
+
+    //验证二叉搜索树
+    public boolean isValidBST(TreeNode root) {
+        return checkBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    private boolean checkBST(TreeNode root, long min, long max) {
+        if (root == null) return true;
+        if (root.left != null && (root.left.val >= root.val || root.left.val <= min)) return false;
+        if (root.right != null && (root.right.val <= root.val || root.right.val >= max)) return false;
+        return checkBST(root.left, min, root.val) && checkBST(root.right, root.val, max);
+    }
+
+
+    //有序数组转换为二叉搜索树。
+    public TreeNode sortedArrayToBST(int[] nums) {
+        //调用递归算法构建
+        return buildSearchTree(nums, 0, nums.length);
+    }
+
+    private TreeNode buildSearchTree(int[] nums, int left, int right) {
+        if (left == right) return null;
+        int m = (left + right) >>> 1;//三个>是无符号右移。
+        return new TreeNode(nums[m], buildSearchTree(nums, left, m), buildSearchTree(nums, m + 1, right));
+    }
+
+    //层序遍历
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        List<List<Integer>> resultList = new ArrayList<>();
+        if (root == null) return new ArrayList<>();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int n = queue.size();//先记录下这一层需要处理的数据
+            List<Integer> list = new ArrayList<>();
+            while (n-- > 0) {
+                TreeNode node = queue.poll();
+                if (node != null) list.add(node.val);
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+            }
+            resultList.add(list);
+        }
+        return resultList;
+    }
+
+    private int result;
+
     public int diameterOfBinaryTree(TreeNode root) {
         //二叉树的直径，实际上就是求左右子树的深度的最大值，递归
+        dfs(root);
+        return result;
+    }
+
+    public int dfs(TreeNode root) {
         if (root == null) return 0;
-        //递归查询左右子树深度的最大值
-        return 1 + Math.max(diameterOfBinaryTree(root.left), diameterOfBinaryTree(root.right));
+        int left = dfs(root.left);
+        int right = dfs(root.right);
+        result = Math.max(result, left + right);
+        return Math.max(left, right) + 1;
     }
 
     //检查二叉树是否是对称的
