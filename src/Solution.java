@@ -680,6 +680,56 @@ class Solution {
         }
     }
 
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int n = inorder.length;
+        Map<Integer, Integer> map = new HashMap<>(n);
+        for (int i = 0; i < inorder.length; i++) {
+            map.put(inorder[i], i);//开区间
+        }
+        return dfs(preorder, 0, n, 0, n, map);
+    }
+
+    private TreeNode dfs(int[] preorder, int preL, int preR, int inL, int inR, Map<Integer, Integer> map) {
+        if (preL == preR) return null;//空节点
+        //从前序遍历中找到根节点
+        //左子树的大小
+        int leftSize = map.get(preorder[preL]) - inL; // 左子树的大小
+        TreeNode left = dfs(preorder, preL + 1, preL + 1 + leftSize, inL, inL + leftSize, map);
+        TreeNode right = dfs(preorder, preL + 1 + leftSize, preR, inL + 1 + leftSize, inR, map);
+        return new TreeNode(preorder[preL], left, right);
+    }
+
+    //二叉树展开为链表
+    TreeNode head = null;
+
+    public void flatten(TreeNode root) {
+        if (root == null) return;
+        flatten(root.right);
+        flatten(root.left);
+        root.right = head;
+        root.left = null;
+        head = root;
+    }
+
+
+    //二叉树的右视图
+    public List<Integer> rightSideView(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        if (root == null) return result;
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            int n = queue.size();//当前队列内的元素
+            while (--n >= 0) {
+                TreeNode node = queue.poll();
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+                if (n == 0) result.add(node.val);
+            }
+        }
+        return result;
+    }
+
     int currentNum;
     int result;
 
@@ -743,8 +793,6 @@ class Solution {
         }
         return resultList;
     }
-
-    private int result;
 
     public int diameterOfBinaryTree(TreeNode root) {
         //二叉树的直径，实际上就是求左右子树的深度的最大值，递归
