@@ -680,10 +680,85 @@ class Solution {
         }
     }
 
+    int count = 0;
+
+    public int numIslands(char[][] grid) {
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == '1') {
+                    dfs(grid, i, j);
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    private void dfs(char[][] grid, int i, int j) {
+        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1') return;
+        grid[i][j] = '2';//插棋子
+        dfs(grid, i - 1, j);//上
+        dfs(grid, i + 1, j);//下
+        dfs(grid, i, j - 1);//左
+        dfs(grid, i, j + 1);//右
+    }
+
+    //二叉树的最近公共祖先
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+
+        if (left != null && right != null) return root;
+        return left == null ? right : left;
+    }
+
+    int ans = Integer.MIN_VALUE;
+
+    //二叉树中的最大路径和
+    public int maxPathSum(TreeNode root) {
+        dfs3(root);
+        return ans;
+    }
+
+    private int dfs3(TreeNode root) {
+        if (root == null) return 0;
+        int left = dfs3(root.left);
+        int right = dfs3(root.right);
+        //更新答案
+        ans = Math.max(ans, left + right + root.val);
+        return Math.max(Math.max(left, right) + root.val, 0);
+    }
+
+    //路径总和III
+    int result1 = 0;
+    Map<Long, Integer> map = new HashMap<>();
+
+    public int pathSum(TreeNode root, int targetSum) {
+        map.put(0L, 1);
+        dfs(root, 0, targetSum);
+        return result1;
+    }
+
+    private void dfs(TreeNode root, long s, int targetSum) {
+        if (root == null) return;
+        //遍历到当前节点，那么sum总和应该加上当前节点
+        s += root.val;
+        //检查结果
+        result1 += map.getOrDefault(s - targetSum, 0);
+        map.merge(s, 1, Integer::sum);
+        //根节点到当前节点的路径和为s，往map里key为s的值+1，说明根节点往下路径和为s的路径又多了一条。
+        dfs(root.left, s, targetSum);
+        dfs(root.right, s, targetSum);
+        //最重要的是要记得恢复现场
+        map.merge(s, -1, Integer::sum);
+    }
+
     public TreeNode buildTree(int[] preorder, int[] inorder) {
         int n = inorder.length;
         Map<Integer, Integer> map = new HashMap<>(n);
-        for (int i = 0; i < inorder.length; i++) {
+        for (int i = 0; i < n; i++) {
             map.put(inorder[i], i);//开区间
         }
         return dfs(preorder, 0, n, 0, n, map);
@@ -691,11 +766,10 @@ class Solution {
 
     private TreeNode dfs(int[] preorder, int preL, int preR, int inL, int inR, Map<Integer, Integer> map) {
         if (preL == preR) return null;//空节点
-        //从前序遍历中找到根节点
-        //左子树的大小
-        int leftSize = map.get(preorder[preL]) - inL; // 左子树的大小
-        TreeNode left = dfs(preorder, preL + 1, preL + 1 + leftSize, inL, inL + leftSize, map);
-        TreeNode right = dfs(preorder, preL + 1 + leftSize, preR, inL + 1 + leftSize, inR, map);
+
+        int leftNum = map.get(preorder[preL]) - inL;
+        TreeNode left = dfs(preorder, preL + 1, preL + 1 + leftNum, inL, inL + leftNum, map);
+        TreeNode right = dfs(preorder, preL + 1 + leftNum, preR, inL + leftNum + 1, inR, map);
         return new TreeNode(preorder[preL], left, right);
     }
 
