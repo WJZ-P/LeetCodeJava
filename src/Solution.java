@@ -660,250 +660,316 @@ import java.util.*;
 //    }
 //}
 
-class Solution {
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+//class Solution {
+//    public class TreeNode {
+//        int val;
+//        TreeNode left;
+//        TreeNode right;
+//
+//        TreeNode() {
+//        }
+//
+//        TreeNode(int val) {
+//            this.val = val;
+//        }
+//
+//        TreeNode(int val, TreeNode left, TreeNode right) {
+//            this.val = val;
+//            this.left = left;
+//            this.right = right;
+//        }
+//    }
+//
+//    //腐烂的橘子
+//    public int orangesRotting(int[][] grid) {
+//        int turns = 0;
+//        Queue<int[]> queue = new ArrayDeque<>();
+//        int row = grid.length;
+//        int col = grid[0].length;
+//        //第一轮，先加入所有的腐烂橘子
+//        boolean hasFresh = false;
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                if (grid[i][j] == 1) {
+//                    hasFresh = true;
+//                }
+//                if (grid[i][j] == 2) {
+//                    queue.offer(new int[]{i, j});
+//                }
+//            }
+//        }
+//
+//        if (!hasFresh) return 0;//根本没有新鲜的橘子！
+//
+//        //剩下对腐烂橘子进行遍历即可
+//        while (!queue.isEmpty()) {
+//            turns++;
+//            int n = queue.size();
+//            for (int i = 0; i < n; i++) {
+//                //下面对本次的橘子进行腐烂蔓延！
+//                int[] cur = queue.poll();
+//                int x = cur[0];
+//                int y = cur[1];
+//
+//                //先判断边界问题
+//                //开始往四周蔓延吧！
+//                if (x - 1 >= 0 && grid[x - 1][y] == 1) {
+//                    grid[x - 1][y] = 2;
+//                    queue.offer(new int[]{x - 1, y});
+//                    System.out.println("往上腐烂了" + (x - 1) + "," + y);
+//                }
+//                if (x + 1 < grid.length && grid[x + 1][y] == 1) {
+//                    grid[x + 1][y] = 2;
+//                    queue.offer(new int[]{x + 1, y});
+//                    System.out.println("往下腐烂了" + (x + 1) + "," + y);
+//                }
+//                if (y - 1 >= 0 && grid[x][y - 1] == 1) {
+//                    grid[x][y - 1] = 2;
+//                    queue.offer(new int[]{x, y - 1});
+//                    System.out.println("往左腐烂了" + x + "," + (y - 1));
+//                }
+//                if (y + 1 < grid[0].length && grid[x][y + 1] == 1) {
+//                    grid[x][y + 1] = 2;
+//                    queue.offer(new int[]{x, y + 1});
+//                    System.out.println("往右腐烂了" + x + "," + (y + 1));
+//                }
+//            }
+//            System.out.println("本轮污染结束，总轮数" + turns);
+//        }
+//        //到此为止，已经尽可能地蔓延完毕了。接下来遍历看看有没有没有腐烂的橘子
+//        for (int i = 0; i < row; i++) {
+//            for (int j = 0; j < col; j++) {
+//                if (grid[i][j] == 1) return -1;
+//            }
+//        }
+//        return turns-1;
+//    }
+//
+//    int count = 0;
+//
+//    public int numIslands(char[][] grid) {
+//        for (int i = 0; i < grid.length; i++) {
+//            for (int j = 0; j < grid[0].length; j++) {
+//                if (grid[i][j] == '1') {
+//                    dfs(grid, i, j);
+//                    count++;
+//                }
+//            }
+//        }
+//        return count;
+//    }
+//
+//    private void dfs(char[][] grid, int i, int j) {
+//        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1') return;
+//        grid[i][j] = '2';//插棋子
+//        dfs(grid, i - 1, j);//上
+//        dfs(grid, i + 1, j);//下
+//        dfs(grid, i, j - 1);//左
+//        dfs(grid, i, j + 1);//右
+//    }
+//
+//    //二叉树的最近公共祖先
+//    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+//        if (root == null || root == p || root == q) return root;
+//
+//        TreeNode left = lowestCommonAncestor(root.left, p, q);
+//        TreeNode right = lowestCommonAncestor(root.right, p, q);
+//
+//        if (left != null && right != null) return root;
+//        return left == null ? right : left;
+//    }
+//
+//    int ans = Integer.MIN_VALUE;
+//
+//    //二叉树中的最大路径和
+//    public int maxPathSum(TreeNode root) {
+//        dfs3(root);
+//        return ans;
+//    }
+//
+//    private int dfs3(TreeNode root) {
+//        if (root == null) return 0;
+//        int left = dfs3(root.left);
+//        int right = dfs3(root.right);
+//        //更新答案
+//        ans = Math.max(ans, left + right + root.val);
+//        return Math.max(Math.max(left, right) + root.val, 0);
+//    }
+//
+//    //路径总和III
+//    int result1 = 0;
+//    Map<Long, Integer> map = new HashMap<>();
+//
+//    public int pathSum(TreeNode root, int targetSum) {
+//        map.put(0L, 1);
+//        dfs(root, 0, targetSum);
+//        return result1;
+//    }
+//
+//    private void dfs(TreeNode root, long s, int targetSum) {
+//        if (root == null) return;
+//        //遍历到当前节点，那么sum总和应该加上当前节点
+//        s += root.val;
+//        //检查结果
+//        result1 += map.getOrDefault(s - targetSum, 0);
+//        map.merge(s, 1, Integer::sum);
+//        //根节点到当前节点的路径和为s，往map里key为s的值+1，说明根节点往下路径和为s的路径又多了一条。
+//        dfs(root.left, s, targetSum);
+//        dfs(root.right, s, targetSum);
+//        //最重要的是要记得恢复现场
+//        map.merge(s, -1, Integer::sum);
+//    }
+//
+//    public TreeNode buildTree(int[] preorder, int[] inorder) {
+//        int n = inorder.length;
+//        Map<Integer, Integer> map = new HashMap<>(n);
+//        for (int i = 0; i < n; i++) {
+//            map.put(inorder[i], i);//开区间
+//        }
+//        return dfs(preorder, 0, n, 0, n, map);
+//    }
+//
+//    private TreeNode dfs(int[] preorder, int preL, int preR, int inL, int inR, Map<Integer, Integer> map) {
+//        if (preL == preR) return null;//空节点
+//
+//        int leftNum = map.get(preorder[preL]) - inL;
+//        TreeNode left = dfs(preorder, preL + 1, preL + 1 + leftNum, inL, inL + leftNum, map);
+//        TreeNode right = dfs(preorder, preL + 1 + leftNum, preR, inL + leftNum + 1, inR, map);
+//        return new TreeNode(preorder[preL], left, right);
+//    }
+//
+//    //二叉树展开为链表
+//    TreeNode head = null;
+//
+//    public void flatten(TreeNode root) {
+//        if (root == null) return;
+//        flatten(root.right);
+//        flatten(root.left);
+//        root.right = head;
+//        root.left = null;
+//        head = root;
+//    }
+//
+//
+//    //二叉树的右视图
+//    public List<Integer> rightSideView(TreeNode root) {
+//        List<Integer> result = new ArrayList<>();
+//        Queue<TreeNode> queue = new ArrayDeque<>();
+//        if (root == null) return result;
+//        queue.add(root);
+//        while (!queue.isEmpty()) {
+//            int n = queue.size();//当前队列内的元素
+//            while (--n >= 0) {
+//                TreeNode node = queue.poll();
+//                if (node.left != null) queue.add(node.left);
+//                if (node.right != null) queue.add(node.right);
+//                if (n == 0) result.add(node.val);
+//            }
+//        }
+//        return result;
+//    }
+//
+//    int currentNum;
+//    int result;
+//
+//    public int kthSmallest(TreeNode root, int k) {
+//        currentNum = k;
+//        midOrder(root);
+//        return result;
+//    }
+//
+//    private void midOrder(TreeNode root) {
+//        if (root == null) return;
+//        midOrder(root.left);//先遍历左子节点
+//        if (--currentNum == 0) {
+//            result = root.val;
+//            return;
+//        }//然后遍历自己的
+//        midOrder(root.right);//再遍历右节点
+//    }
+//
+//    //验证二叉搜索树
+//    public boolean isValidBST(TreeNode root) {
+//        return checkBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+//    }
+//
+//    private boolean checkBST(TreeNode root, long min, long max) {
+//        if (root == null) return true;
+//        if (root.left != null && (root.left.val >= root.val || root.left.val <= min)) return false;
+//        if (root.right != null && (root.right.val <= root.val || root.right.val >= max)) return false;
+//        return checkBST(root.left, min, root.val) && checkBST(root.right, root.val, max);
+//    }
+//
+//
+//    //有序数组转换为二叉搜索树。
+//    public TreeNode sortedArrayToBST(int[] nums) {
+//        //调用递归算法构建
+//        return buildSearchTree(nums, 0, nums.length);
+//    }
+//
+//    private TreeNode buildSearchTree(int[] nums, int left, int right) {
+//        if (left == right) return null;
+//        int m = (left + right) >>> 1;//三个>是无符号右移。
+//        return new TreeNode(nums[m], buildSearchTree(nums, left, m), buildSearchTree(nums, m + 1, right));
+//    }
+//
+//    //层序遍历
+//    public List<List<Integer>> levelOrder(TreeNode root) {
+//        Queue<TreeNode> queue = new ArrayDeque<>();
+//        List<List<Integer>> resultList = new ArrayList<>();
+//        if (root == null) return new ArrayList<>();
+//        queue.add(root);
+//        while (!queue.isEmpty()) {
+//            int n = queue.size();//先记录下这一层需要处理的数据
+//            List<Integer> list = new ArrayList<>();
+//            while (n-- > 0) {
+//                TreeNode node = queue.poll();
+//                if (node != null) list.add(node.val);
+//                if (node.left != null) queue.add(node.left);
+//                if (node.right != null) queue.add(node.right);
+//            }
+//            resultList.add(list);
+//        }
+//        return resultList;
+//    }
+//
+//    public int diameterOfBinaryTree(TreeNode root) {
+//        //二叉树的直径，实际上就是求左右子树的深度的最大值，递归
+//        dfs(root);
+//        return result;
+//    }
+//
+//    public int dfs(TreeNode root) {
+//        if (root == null) return 0;
+//        int left = dfs(root.left);
+//        int right = dfs(root.right);
+//        result = Math.max(result, left + right);
+//        return Math.max(left, right) + 1;
+//    }
+//
+//    //检查二叉树是否是对称的
+//    public boolean isSymmetric(TreeNode root) {
+//        if (root == null) return true;
+//        return isSymmetric(root.left, root.right);
+//    }
+//
+//    public boolean isSymmetric(TreeNode left, TreeNode right) {
+//        if (left == null && right == null) return true;
+//        if (left == null || right == null) return false;
+//        if (left.val != right.val) return false;
+//        return isSymmetric(left.left, right.right) &&
+//                isSymmetric(left.right, right.left);
+//    }
+//
+//    public TreeNode invertTree(TreeNode root) {
+//        if (root == null) return null;
+//        TreeNode temp = root.left;
+//        //交换左右子节点
+//        root.left = root.right;
+//        root.right = temp;
+//        root.left = invertTree(root.left);//继续交换孩子节点
+//        root.right = invertTree(temp);
+//        return root;
+//    }
+//}
 
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
-    }
-
-    int count = 0;
-
-    public int numIslands(char[][] grid) {
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[0].length; j++) {
-                if (grid[i][j] == '1') {
-                    dfs(grid, i, j);
-                    count++;
-                }
-            }
-        }
-        return count;
-    }
-
-    private void dfs(char[][] grid, int i, int j) {
-        if (i < 0 || i >= grid.length || j < 0 || j >= grid[0].length || grid[i][j] != '1') return;
-        grid[i][j] = '2';//插棋子
-        dfs(grid, i - 1, j);//上
-        dfs(grid, i + 1, j);//下
-        dfs(grid, i, j - 1);//左
-        dfs(grid, i, j + 1);//右
-    }
-
-    //二叉树的最近公共祖先
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null || root == p || root == q) return root;
-
-        TreeNode left = lowestCommonAncestor(root.left, p, q);
-        TreeNode right = lowestCommonAncestor(root.right, p, q);
-
-        if (left != null && right != null) return root;
-        return left == null ? right : left;
-    }
-
-    int ans = Integer.MIN_VALUE;
-
-    //二叉树中的最大路径和
-    public int maxPathSum(TreeNode root) {
-        dfs3(root);
-        return ans;
-    }
-
-    private int dfs3(TreeNode root) {
-        if (root == null) return 0;
-        int left = dfs3(root.left);
-        int right = dfs3(root.right);
-        //更新答案
-        ans = Math.max(ans, left + right + root.val);
-        return Math.max(Math.max(left, right) + root.val, 0);
-    }
-
-    //路径总和III
-    int result1 = 0;
-    Map<Long, Integer> map = new HashMap<>();
-
-    public int pathSum(TreeNode root, int targetSum) {
-        map.put(0L, 1);
-        dfs(root, 0, targetSum);
-        return result1;
-    }
-
-    private void dfs(TreeNode root, long s, int targetSum) {
-        if (root == null) return;
-        //遍历到当前节点，那么sum总和应该加上当前节点
-        s += root.val;
-        //检查结果
-        result1 += map.getOrDefault(s - targetSum, 0);
-        map.merge(s, 1, Integer::sum);
-        //根节点到当前节点的路径和为s，往map里key为s的值+1，说明根节点往下路径和为s的路径又多了一条。
-        dfs(root.left, s, targetSum);
-        dfs(root.right, s, targetSum);
-        //最重要的是要记得恢复现场
-        map.merge(s, -1, Integer::sum);
-    }
-
-    public TreeNode buildTree(int[] preorder, int[] inorder) {
-        int n = inorder.length;
-        Map<Integer, Integer> map = new HashMap<>(n);
-        for (int i = 0; i < n; i++) {
-            map.put(inorder[i], i);//开区间
-        }
-        return dfs(preorder, 0, n, 0, n, map);
-    }
-
-    private TreeNode dfs(int[] preorder, int preL, int preR, int inL, int inR, Map<Integer, Integer> map) {
-        if (preL == preR) return null;//空节点
-
-        int leftNum = map.get(preorder[preL]) - inL;
-        TreeNode left = dfs(preorder, preL + 1, preL + 1 + leftNum, inL, inL + leftNum, map);
-        TreeNode right = dfs(preorder, preL + 1 + leftNum, preR, inL + leftNum + 1, inR, map);
-        return new TreeNode(preorder[preL], left, right);
-    }
-
-    //二叉树展开为链表
-    TreeNode head = null;
-
-    public void flatten(TreeNode root) {
-        if (root == null) return;
-        flatten(root.right);
-        flatten(root.left);
-        root.right = head;
-        root.left = null;
-        head = root;
-    }
-
-
-    //二叉树的右视图
-    public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> result = new ArrayList<>();
-        Queue<TreeNode> queue = new ArrayDeque<>();
-        if (root == null) return result;
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            int n = queue.size();//当前队列内的元素
-            while (--n >= 0) {
-                TreeNode node = queue.poll();
-                if (node.left != null) queue.add(node.left);
-                if (node.right != null) queue.add(node.right);
-                if (n == 0) result.add(node.val);
-            }
-        }
-        return result;
-    }
-
-    int currentNum;
-    int result;
-
-    public int kthSmallest(TreeNode root, int k) {
-        currentNum = k;
-        midOrder(root);
-        return result;
-    }
-
-    private void midOrder(TreeNode root) {
-        if (root == null) return;
-        midOrder(root.left);//先遍历左子节点
-        if (--currentNum == 0) {
-            result = root.val;
-            return;
-        }//然后遍历自己的
-        midOrder(root.right);//再遍历右节点
-    }
-
-    //验证二叉搜索树
-    public boolean isValidBST(TreeNode root) {
-        return checkBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
-    }
-
-    private boolean checkBST(TreeNode root, long min, long max) {
-        if (root == null) return true;
-        if (root.left != null && (root.left.val >= root.val || root.left.val <= min)) return false;
-        if (root.right != null && (root.right.val <= root.val || root.right.val >= max)) return false;
-        return checkBST(root.left, min, root.val) && checkBST(root.right, root.val, max);
-    }
-
-
-    //有序数组转换为二叉搜索树。
-    public TreeNode sortedArrayToBST(int[] nums) {
-        //调用递归算法构建
-        return buildSearchTree(nums, 0, nums.length);
-    }
-
-    private TreeNode buildSearchTree(int[] nums, int left, int right) {
-        if (left == right) return null;
-        int m = (left + right) >>> 1;//三个>是无符号右移。
-        return new TreeNode(nums[m], buildSearchTree(nums, left, m), buildSearchTree(nums, m + 1, right));
-    }
-
-    //层序遍历
-    public List<List<Integer>> levelOrder(TreeNode root) {
-        Queue<TreeNode> queue = new ArrayDeque<>();
-        List<List<Integer>> resultList = new ArrayList<>();
-        if (root == null) return new ArrayList<>();
-        queue.add(root);
-        while (!queue.isEmpty()) {
-            int n = queue.size();//先记录下这一层需要处理的数据
-            List<Integer> list = new ArrayList<>();
-            while (n-- > 0) {
-                TreeNode node = queue.poll();
-                if (node != null) list.add(node.val);
-                if (node.left != null) queue.add(node.left);
-                if (node.right != null) queue.add(node.right);
-            }
-            resultList.add(list);
-        }
-        return resultList;
-    }
-
-    public int diameterOfBinaryTree(TreeNode root) {
-        //二叉树的直径，实际上就是求左右子树的深度的最大值，递归
-        dfs(root);
-        return result;
-    }
-
-    public int dfs(TreeNode root) {
-        if (root == null) return 0;
-        int left = dfs(root.left);
-        int right = dfs(root.right);
-        result = Math.max(result, left + right);
-        return Math.max(left, right) + 1;
-    }
-
-    //检查二叉树是否是对称的
-    public boolean isSymmetric(TreeNode root) {
-        if (root == null) return true;
-        return isSymmetric(root.left, root.right);
-    }
-
-    public boolean isSymmetric(TreeNode left, TreeNode right) {
-        if (left == null && right == null) return true;
-        if (left == null || right == null) return false;
-        if (left.val != right.val) return false;
-        return isSymmetric(left.left, right.right) &&
-                isSymmetric(left.right, right.left);
-    }
-
-    public TreeNode invertTree(TreeNode root) {
-        if (root == null) return null;
-        TreeNode temp = root.left;
-        //交换左右子节点
-        root.left = root.right;
-        root.right = temp;
-        root.left = invertTree(root.left);//继续交换孩子节点
-        root.right = invertTree(temp);
-        return root;
-    }
-}
