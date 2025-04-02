@@ -130,6 +130,7 @@
 //}
 
 import com.sun.source.tree.Tree;
+import org.w3c.dom.Node;
 
 import java.util.*;
 
@@ -973,3 +974,112 @@ import java.util.*;
 //    }
 //}
 
+//class Solution {
+//    public boolean canFinish(int numCourses, int[][] prerequisites) {
+//        List<Integer>[] map = new ArrayList[numCourses];
+//        Arrays.setAll(map, o -> new ArrayList<>());
+//
+//        //初始化map，一个邻接表
+//        for (int[] pre : prerequisites) {
+//            map[pre[0]].add(pre[1]);
+//        }
+//        int[] colors = new int[numCourses];
+//        //遍历每个课程看是否有环
+//        for (int i = 0; i < numCourses; i++) {
+//            if (colors[i] == 0)//只访问没有访问过的课程
+//            {
+//                if (!dfs(map, colors, i)) return false;
+//            }
+//        }
+//        return true;
+//    }
+//
+//    private boolean dfs(List<Integer>[] map, int[] color, int index) {
+//        color[index] = 1;//正在访问当前课程
+//
+//        //遍历该课程的每个先修课程
+//        List<Integer> list = map[index];
+//        for (int preCourse : list) {
+//            if (color[preCourse] == 2) continue;//跳出循环
+//            if (color[preCourse] == 1) return false;//访问到了遍历中的数据，说明有环。
+//            //如果先修课程还没被遍历过，就进行遍历
+//            if (!dfs(map, color, preCourse)) return false;//dfs失败，说明找到了环
+//        }
+//        //这个课程的先修课程遍历完毕，设置成2
+//        color[index] = 2;
+//        //上面执行完都没错误，说明没问题
+//        return true;
+//    }
+//}
+
+//class Trie {
+//
+//    public static class Node {
+//        Node[] son = new Node[26];
+//        boolean end;
+//    }
+//
+//    private final Node root = new Node();
+//
+//    public void insert(String word) {
+//        Node cur = root;
+//        for (char c : word.toCharArray()) {
+//            int index = c - 'a';
+//            if (cur.son[index] == null) {
+//                cur.son[index] = new Node();
+//            }
+//            cur = cur.son[index];
+//        }
+//        cur.end = true;
+//    }
+//
+//    public boolean search(String word) {
+//        Node cur = root;
+//        for (char c : word.toCharArray()) {
+//            int index = c - 'a';
+//            if (cur.son[index] == null) return false;
+//            cur = cur.son[index];
+//        }
+//        return cur.end;
+//    }
+//
+//    public boolean startsWith(String prefix) {
+//        Node cur = root;
+//        for (char c : prefix.toCharArray()) {
+//            int index = c - 'a';
+//            if (cur.son[index] == null) return false;
+//            cur = cur.son[index];
+//        }
+//        return true;
+//    }
+//}
+
+class Solution {
+    public List<List<Integer>> permute(int[] nums) {
+        //创建一个答案列表
+        List<List<Integer>> ans = new ArrayList<>();
+        //Boolean数组，标志这个数字是否被使用
+        boolean[] used = new boolean[nums.length];
+        List<Integer> singleResult = Arrays.asList(new Integer[nums.length]);
+        dfs(0, used, nums, singleResult, ans);
+        return ans;
+    }
+
+    private void dfs(int index, boolean[] used, int[] nums, List<Integer> res, List<List<Integer>> ans) {
+        if (index == nums.length)//递归达到终点了
+        {
+            ans.add(new ArrayList<>(res));
+            return;
+        }
+        //没结束，尝试所有可用的数字
+        for (int i = 0; i < nums.length; i++) {
+            if (!used[i]) {
+                //这个数字仍未被使用
+                res.set(index, nums[i]);
+                used[i] = true;
+                dfs(index + 1, used, nums, res, ans);
+                used[i] = false;
+            }
+        }
+    }
+}
