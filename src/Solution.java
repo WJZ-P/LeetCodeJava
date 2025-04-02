@@ -1054,32 +1054,108 @@ import java.util.*;
 //    }
 //}
 
+//class Solution {
+//    public List<List<Integer>> permute(int[] nums) {
+//        //创建一个答案列表
+//        List<List<Integer>> ans = new ArrayList<>();
+//        //Boolean数组，标志这个数字是否被使用
+//        boolean[] used = new boolean[nums.length];
+//        List<Integer> singleResult = Arrays.asList(new Integer[nums.length]);
+//        dfs(0, used, nums, singleResult, ans);
+//        return ans;
+//    }
+//
+//    private void dfs(int index, boolean[] used, int[] nums, List<Integer> res, List<List<Integer>> ans) {
+//        if (index == nums.length)//递归达到终点了
+//        {
+//            ans.add(new ArrayList<>(res));
+//            return;
+//        }
+//        //没结束，尝试所有可用的数字
+//        for (int i = 0; i < nums.length; i++) {
+//            if (!used[i]) {
+//                //这个数字仍未被使用
+//                res.set(index, nums[i]);
+//                used[i] = true;
+//                dfs(index + 1, used, nums, res, ans);
+//                used[i] = false;
+//            }
+//        }
+//    }
+//}
+
+//class Solution {
+//    public List<List<Integer>> subsets(int[] nums) {
+//        List<List<Integer>> ans = new ArrayList<>();
+//        List<Integer> res = new ArrayList<>();
+//        dfs(nums, res, 0, ans);
+//        return ans;
+//    }
+//
+//    private void dfs(int[] nums, List<Integer> res, int index, List<List<Integer>> ans) {
+//        if (index == nums.length) {
+//            //递归结束，写入结果
+//            ans.add(new ArrayList<>(res));//复制一份结果写入，不然全部指向同一个对象了
+//            return;
+//        }
+//        //分两种情况，一种取当前值，一种不取当前值
+//        dfs(nums, new ArrayList<>(res), index + 1, ans);//不取当前值直接往后递归
+//        res.add(nums[index]);//取当前值，继续往后递归
+//        dfs(nums, new ArrayList<>(res), index + 1, ans);
+//    }
+//}
+
+//class Solution {
+//    public static final String[] map = new String[]{"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+//    public char[] res;//结果char数组
+//    private char[] nums;
+//    List<String> ans = new ArrayList<>();
+//
+//    public List<String> letterCombinations(String digits) {
+//        if (digits.isEmpty()) return ans;
+//        res = new char[digits.length()];
+//        this.nums = digits.toCharArray();
+//        dfs(0);
+//        return ans;
+//    }
+//
+//    private void dfs(int index) {
+//        if (index == nums.length) {
+//            ans.add(new String(res));
+//            return;
+//        }
+//        for (char c : map[nums[index] - '0'].toCharArray()) {
+//            res[index] = c;
+//            dfs(index + 1);
+//        }
+//    }
+//}
+
 class Solution {
-    public List<List<Integer>> permute(int[] nums) {
-        //创建一个答案列表
-        List<List<Integer>> ans = new ArrayList<>();
-        //Boolean数组，标志这个数字是否被使用
-        boolean[] used = new boolean[nums.length];
-        List<Integer> singleResult = Arrays.asList(new Integer[nums.length]);
-        dfs(0, used, nums, singleResult, ans);
+    List<List<Integer>> ans = new ArrayList<>();
+    int[] candidates;
+
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<Integer> res = new ArrayList<>();
+        this.candidates = candidates;
+        dfs(res, target, 0, 0);
         return ans;
     }
 
-    private void dfs(int index, boolean[] used, int[] nums, List<Integer> res, List<List<Integer>> ans) {
-        if (index == nums.length)//递归达到终点了
-        {
+    private void dfs(List<Integer> res, int target, int index, int currentSum) {
+        if (currentSum > target) return;
+        if (currentSum == target) {
             ans.add(new ArrayList<>(res));
             return;
         }
-        //没结束，尝试所有可用的数字
-        for (int i = 0; i < nums.length; i++) {
-            if (!used[i]) {
-                //这个数字仍未被使用
-                res.set(index, nums[i]);
-                used[i] = true;
-                dfs(index + 1, used, nums, res, ans);
-                used[i] = false;
-            }
+        for (int i = index; i < candidates.length; i++) {
+            //先尝试加上当前下标的数
+            res.add(candidates[i]);
+            //然后递归
+            dfs(res, target, i, currentSum + candidates[i]);
+            //恢复现场，移除刚才添加的值
+            res.remove(res.size() - 1);
+
         }
     }
 }
