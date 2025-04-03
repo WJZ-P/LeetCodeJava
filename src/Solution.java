@@ -1131,31 +1131,159 @@ import java.util.*;
 //    }
 //}
 
+//class Solution {
+//    List<List<Integer>> ans = new ArrayList<>();
+//    int[] candidates;
+//
+//    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+//        List<Integer> res = new ArrayList<>();
+//        this.candidates = candidates;
+//        dfs(res, target, 0, 0);
+//        return ans;
+//    }
+//
+//    private void dfs(List<Integer> res, int target, int index, int currentSum) {
+//        if (currentSum > target) return;
+//        if (currentSum == target) {
+//            ans.add(new ArrayList<>(res));
+//            return;
+//        }
+//        for (int i = index; i < candidates.length; i++) {
+//            //先尝试加上当前下标的数
+//            res.add(candidates[i]);
+//            //然后递归
+//            dfs(res, target, i, currentSum + candidates[i]);
+//            //恢复现场，移除刚才添加的值
+//            res.remove(res.size() - 1);
+//
+//        }
+//    }
+//}
+
+//class Solution {
+//    private List<String> ans = new ArrayList<>();
+//    private int maxLength;
+//    public List<String> generateParenthesis(int n) {
+//        this.maxLength = n * 2;
+//        dfs("(", n - 1, 1);
+//        return ans;
+//    }
+//
+//    private void dfs(String s, int num, int unclosed) {
+//        if (s.length() == maxLength) {
+//            ans.add(s);
+//            return;
+//        }
+//        //每次递归可以有两个不同结果，一个是加(，一个是加)。
+//        if (unclosed > 0) //仍然有未闭合的左括号，那就可以dfs加一个右括号
+//            dfs(s + ")", num, unclosed - 1);
+//        if (num > 0)
+//            dfs(s + "(", num - 1, unclosed + 1);
+//    }
+//}
+
+//class Solution {
+//    public boolean exist(char[][] board, String word) {
+//        //先找到开头第一个词
+//        char[] chars = word.toCharArray();
+//        boolean[][] used = new boolean[board.length][board[0].length];
+//        for (int i = 0; i < board.length; i++) {
+//            for (int j = 0; j < board[0].length; j++) {
+//                if (board[i][j] == chars[0]) {
+//                    //找到开头了，深度遍历
+//                    used[i][j] = true;
+//                    if (dfs(word.toCharArray(), 1, board, used, i, j)) {
+//                        return true;
+//                    }
+//                    used[i][j] = false;
+//                }
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean dfs(char[] word, int charIndex, char[][] board, boolean[][] used, int x, int y) {
+//        if (charIndex == word.length)//说明找到了
+//            return true;
+//
+//        //下面dfs查找
+//        char targetChar = word[charIndex];
+//        if (x - 1 >= 0 && board[x - 1][y] == targetChar && !used[x - 1][y]) {//往上查找
+//            used[x - 1][y] = true;//设置为使用中。
+//            if (dfs(word, charIndex + 1, board, used, x - 1, y)) {
+//                return true;
+//            }
+//            used[x - 1][y] = false;//恢复现场
+//        }
+//        if (x + 1 <= board.length - 1 && board[x + 1][y] == targetChar && !used[x + 1][y]) {//往下查找
+//            used[x + 1][y] = true;//设置为使用中。
+//            if (dfs(word, charIndex + 1, board, used, x + 1, y)) {
+//                return true;
+//            }
+//            used[x + 1][y] = false;//恢复现场
+//        }
+//        if (y - 1 >= 0 && board[x][y - 1] == targetChar && !used[x][y - 1]) {//往左查找
+//            used[x][y - 1] = true;//设置为使用中。
+//            if (dfs(word, charIndex + 1, board, used, x, y - 1)) {
+//                return true;
+//            }
+//            used[x][y - 1] = false;//恢复现场
+//        }
+//        if (y + 1 <= board[0].length - 1 && board[x][y + 1] == targetChar && !used[x][y + 1]) {//往右查找
+//            used[x][y + 1] = true;//设置为使用中。
+//            if (dfs(word, charIndex + 1, board, used, x, y + 1)) {
+//                return true;
+//            }
+//            used[x][y + 1] = false;//恢复现场
+//        }
+//        return false;
+//    }
+//}
+
+//class Solution {
+//    private String s;
+//    private List<List<String>> ans = new ArrayList<>();
+//    private final List<String> res = new ArrayList<>();
+//
+//    public List<List<String>> partition(String s) {
+//        this.s = s;
+//        dfs(0, 0);
+//        return ans;
+//    }
+//
+//    private void dfs(int i, int start) {
+//        if (i == s.length()) {
+//            ans.add(new ArrayList<>(res));
+//            return;
+//        }
+//        //下面有两种情况，一种是在这里分隔，另一种情况就是不在这里分割
+//
+//        //在这里分割，那么必须保证前面是回文串
+//        if (checkSubString(start, i)) {
+//            res.add(s.substring(start, i + 1));//因为是左闭右开区间，就必须i+1
+//            dfs(i + 1, i + 1);
+//            res.remove(res.size() - 1);//恢复现场
+//        }
+//
+//        //不在这里分割，让这个子串和后面的组成更大的子串
+//        if (i < s.length() - 1)
+//            dfs(i + 1, start);
+//    }
+//
+//    boolean checkSubString(int start, int end) {
+//        char[] chars = s.toCharArray();
+//        while (start < end) {
+//            if (chars[start] != chars[end])
+//                return false;
+//            start++;
+//            end--;
+//        }
+//        return true;
+//    }
+//}
+
 class Solution {
-    List<List<Integer>> ans = new ArrayList<>();
-    int[] candidates;
+    public List<List<String>> solveNQueens(int n) {
 
-    public List<List<Integer>> combinationSum(int[] candidates, int target) {
-        List<Integer> res = new ArrayList<>();
-        this.candidates = candidates;
-        dfs(res, target, 0, 0);
-        return ans;
-    }
-
-    private void dfs(List<Integer> res, int target, int index, int currentSum) {
-        if (currentSum > target) return;
-        if (currentSum == target) {
-            ans.add(new ArrayList<>(res));
-            return;
-        }
-        for (int i = index; i < candidates.length; i++) {
-            //先尝试加上当前下标的数
-            res.add(candidates[i]);
-            //然后递归
-            dfs(res, target, i, currentSum + candidates[i]);
-            //恢复现场，移除刚才添加的值
-            res.remove(res.size() - 1);
-
-        }
     }
 }
