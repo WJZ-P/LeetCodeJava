@@ -1485,15 +1485,15 @@ class Solution {
         map.put('{', '}');
         map.put('(', ')');
         map.put('[', ']');
-        Queue<Character> queue = new ArrayDeque<>();
+        Deque<Character> queue = new ArrayDeque<>();
         for (char c : s.toCharArray()) {
-            if (map.containsKey(c)) queue.add(c);
+            if (map.containsKey(c)) queue.push(c);//是左符号，入栈
             else {
-                char last = queue.poll();
-                if (!map.containsKey(last)) return false;
+                char last = queue.pop();
+                if (!map.containsKey(last)) return false;//拿出来的是右符号
+                if (map.get(last) != c) return false;//左右符号不匹配
             }
         }
-        if (!queue.isEmpty()) return false;
-        return true;
+        return queue.isEmpty();
     }
 }
