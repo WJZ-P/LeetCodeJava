@@ -129,9 +129,6 @@
 //    }
 //}
 
-import com.sun.source.tree.Tree;
-import org.w3c.dom.Node;
-
 import java.util.*;
 
 //class Solution {
@@ -1282,8 +1279,221 @@ import java.util.*;
 //    }
 //}
 
-class Solution {
-    public List<List<String>> solveNQueens(int n) {
+//class Solution {
+//    private List<List<String>> ans = new ArrayList<>();
+//    //先来个长度为n的数组，判断每一行的哪一列放置过皇后，用来放置结果
+//    private int[] place;
+//    //记录第c列上是否放置过皇后
+//    private boolean[] onPath;
+//    //维护两个boolean数组，查看主对角线和副对角线是否已经有了皇后
+//    private boolean[] diagMain;//主对角线：/方向
+//    private boolean[] diagSub;//副对角线：\方向
+//    private int queenNums;//皇后数量
+//
+//    public List<List<String>> solveNQueens(int n) {
+//        this.queenNums = n;
+//        this.place = new int[n];
+//        this.onPath = new boolean[n];
+//        this.diagMain = new boolean[2 * n - 1];
+//        this.diagSub = new boolean[2 * n - 1];
+//        dfs(0);
+//        return ans;
+//    }
+//
+//    private void dfs(int r) {//r代表当前到了哪个行
+//        if (r == this.queenNums) {//已经找到了全部皇后的位置
+//            List<String> newAns = new ArrayList<>(queenNums);//预分配空间
+//            for (int c : place) {
+//                char[] newRow = new char[queenNums];
+//                Arrays.fill(newRow, '.');
+//                newRow[c] = 'Q';
+//                newAns.add(new String(newRow));
+//            }
+//            ans.add(newAns);
+//            return;
+//        }
+//        //下面开始本次遍历。
+//
+//        //遍历所有的列，看能不能放置皇后！
+//        for (int column = 0; column < queenNums; column++) {
+//            //下面进行条件判断
+//            if (!onPath[column] &&//当前列还没放过皇后
+//                    !diagMain[r + column] &&//主对角线上没冲突
+//                    !diagSub[r - column + queenNums - 1]//副对角线上也没冲突
+//            ) {
+//                //可以放皇后辣！
+//                onPath[column] = diagMain[r + column] = diagSub[r - column + queenNums - 1] = true;
+//                place[r] = column;
+//                //然后继续dfs找可能
+//                dfs(r + 1);
+//                //然后我们恢复现场
+//                onPath[column] = diagMain[r + column] = diagSub[r - column + queenNums - 1] = false;
+//                place[r] = 0;//这里其实没必要，因为满足上面的条件就会直接覆盖掉。
+//            }
+//        }
+//    }
+//}
 
+//class Solution {
+//    public int searchInsert(int[] nums, int target) {
+//        int left = 0, right = nums.length - 1;
+//        int mid;
+//        while (left <= right) {
+//            mid = (left + right) / 2;
+//            if (nums[mid] == target) return mid;
+//            if (nums[mid] < target) {
+//                left = mid + 1;
+//            } else right = mid - 1;
+//        }
+//        return left;
+//    }
+//}
+
+//class Solution {
+//    public boolean searchMatrix(int[][] matrix, int target) {
+//        //先从第一列判断出目标数可能所在的行
+//        int left = 0, right = matrix.length - 1;
+//        while (left <= right) {
+//            int mid = (left + right) / 2;
+//            if (matrix[mid][0] == target) return true;
+//            if (matrix[mid][0] < target) {
+//                left = mid + 1;
+//            } else right = mid - 1;
+//        }
+//        //right所在的下标就是我们要找的
+//        int row = (left + right) / 2;
+//        left = 0;
+//        right = matrix[0].length - 1;
+//        while (left <= right) {
+//            int mid = (left + right) / 2;
+//            if (matrix[row][mid] == target) return true;
+//            if (matrix[row][mid] < target) {
+//                left = mid + 1;
+//            } else right = mid - 1;
+//        }
+//        return false;
+//    }
+//}
+
+//class Solution {
+//    public int[] searchRange(int[] nums, int target) {
+//        if (nums.length == 0) return new int[]{-1, -1};
+//        int left = 0, right = nums.length - 1;
+//        int mid = 0;
+//        while (left <= right) {
+//            mid = (left + right) / 2;
+//            if (nums[mid] == target) break;
+//            if (nums[mid] < target) left = mid + 1;
+//            else right = mid - 1;
+//        }
+//        //下面开始找左右两个端点
+//        if (nums[mid] != target) return new int[]{-1, -1};
+//        left = right = mid;
+//        while (left - 1 >= 0 && nums[left - 1] == target) left--;
+//        while (right + 1 < nums.length && nums[right + 1] == target) right++;
+//
+//        return new int[]{left, right};
+//    }
+//}
+
+//class Solution {
+//    public int search(int[] nums, int target) {
+//        //思路，通过判断mid值跟数组最后一个值的大小比较，判断target和mid的位置相对关系。
+//        int left = 0, right = nums.length - 1;
+//        while (left <= right) {
+//            int mid = (left + right) / 2;
+//            if (nums[mid] == target) return mid;
+//            if (target > nums[nums.length - 1] && nums[nums.length - 1] > nums[mid])//目标值在第一递增段，当前mid在第二，target在mid左边
+//                right = mid - 1;
+//            else if (target <= nums[nums.length - 1] && nums[nums.length - 1] < nums[mid]) {//目标第二递增，当前第一递增
+//                left = mid + 1;
+//            } else {
+//                //都不符合，说明二者在同一递增段
+//                if (target < nums[mid]) right = mid - 1;
+//                else left = mid + 1;
+//            }
+//        }
+//        return -1;
+//    }
+//}
+
+//class Solution {
+//    public int findMin(int[] nums) {
+//        int left = 0, right = nums.length - 1;
+//        int end = nums[nums.length - 1];
+//        int mid;
+//        while (left <= right) {
+//            mid = (left + right) >>> 1;
+//            if (nums[mid] > end) {//当前位置在第一递增区，最小值还在右边
+//                left = mid + 1;
+//            } else right = mid - 1;
+//        }
+//        return nums[left];
+//    }
+//}
+
+//class Solution {
+//    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+//        int totalLength = nums1.length + nums2.length;
+//        //看总长度是奇数还是偶数
+//        if (totalLength % 2 == 1)//是奇数，返回中间那个
+//        {
+//            return getKthElement(nums1, nums2, totalLength / 2 + 1);
+//        } else
+//            return (getKthElement(nums1, nums2, totalLength / 2) + getKthElement(nums1, nums2, totalLength / 2 + 1)) / 2.0;
+//    }
+//
+//    private int getKthElement(int[] nums1, int[] nums2, int k) {
+//        int index1 = 0, index2 = 0;
+//        int len1 = nums1.length, len2 = nums2.length;
+//
+//        while (true) {
+//            if (index1 == len1) {
+//                //说明第一个数组找不到数了，肯定在第二个数组里面
+//                return nums2[index2 + k - 1];
+//            } else if (index2 == len2) {
+//                return nums1[index1 + k - 1];
+//            }
+//            if (k == 1) {
+//                //遍历到这里k为1，直接比较两个数组当前遍历到下标的大小
+//                return Math.min(nums1[index1], nums2[index2]);
+//            }
+//            //计算在num1和num2中要比较的元素索引
+//            int half = k / 2;
+//            //为了防止索引越界，取index+half和数组长度的最小值
+//            int newIndex1 = Math.min(index1 + half, len1) - 1;
+//            int newIndex2 = Math.min(index2 + half, len2) - 1;
+//            //获取对应元素值
+//            int pivot1 = nums1[newIndex1];
+//            int pivot2 = nums2[newIndex2];
+//
+//            if (pivot1 <= pivot2) {
+//                //左边的数字小于等于右边的
+//                k -= newIndex1 - index1 + 1;
+//                index1 = newIndex1 + 1;
+//            } else {
+//                k -= newIndex2 - index2 + 1;
+//                index2 = newIndex2 + 1;
+//            }
+//        }
+//    }
+//}
+
+class Solution {
+    public boolean isValid(String s) {
+        Map<Character, Character> map = new HashMap<>();
+        map.put('{', '}');
+        map.put('(', ')');
+        map.put('[', ']');
+        Queue<Character> queue = new ArrayDeque<>();
+        for (char c : s.toCharArray()) {
+            if (map.containsKey(c)) queue.add(c);
+            else {
+                char last = queue.poll();
+                if (!map.containsKey(last)) return false;
+            }
+        }
+        if (!queue.isEmpty()) return false;
+        return true;
     }
 }
