@@ -1499,26 +1499,129 @@ import java.util.*;
 //    }
 //}
 
-class MinStack {
-    private final Deque<int[]> stack = new ArrayDeque<>();
+//class MinStack {
+//    private final Deque<int[]> stack = new ArrayDeque<>();
+//
+//    public MinStack() {
+//        stack.push(new int[]{0, Integer.MAX_VALUE});
+//    }
+//
+//    public void push(int val) {
+//        stack.push(new int[]{val, Math.min(val, getMin())});
+//    }
+//
+//    public void pop() {
+//        stack.pop();
+//    }
+//
+//    public int top() {
+//        return stack.peek()[0];
+//    }
+//
+//    public int getMin() {
+//        return stack.peek()[1];
+//    }
+//}
 
-    public MinStack() {
-        stack.push(new int[]{0, Integer.MAX_VALUE});
-    }
+//class Solution {
+//    public String decodeString(String s) {
+//        Deque<Integer> numStack = new ArrayDeque<>();
+//        Deque<String> stringStack = new ArrayDeque<>();
+//        StringBuilder res = new StringBuilder();
+//        int num = 0;
+//        for (char c : s.toCharArray()) {
+//            if (c == '[') {
+//                numStack.push(num);
+//                stringStack.push(res.toString());
+//                num = 0;
+//                res = new StringBuilder();
+//            } else if (c == ']') {
+//                int repeatTime = numStack.pop();
+//                String string = stringStack.pop();
+//                StringBuilder builder = new StringBuilder();
+//                for (int i = 0; i < repeatTime; i++) {
+//                    builder.append(res);
+//                }
+//                res = new StringBuilder(string + builder);
+//            } else if (c >= '0' && c <= '9') {
+//                num = num * 10 + Integer.parseInt(c + "");
+//            } else {
+//                res.append(c);
+//            }
+//        }
+//        return res.toString();
+//    }
+//}
 
-    public void push(int val) {
-        stack.push(new int[]{val, Math.min(val, getMin())});
-    }
+//class Solution {
+//    public int[] dailyTemperatures(int[] temperatures) {
+//        Deque<Integer> stack = new ArrayDeque<>();
+//        int[] ans = new int[temperatures.length];
+//        for (int i = 0; i < temperatures.length; i++) {
+//            int temperature = temperatures[i];
+//            while (!stack.isEmpty() && temperature > temperatures[stack.peek()]) {
+//                int j = stack.pop();
+//                ans[j] = i - j;
+//            }
+//            stack.push(i);
+//        }
+//        return ans;
+//    }
+//}
 
-    public void pop() {
-        stack.pop();
-    }
+//class Solution {
+//    public int largestRectangleArea(int[] heights) {
+//        int ans = 0;
+//        Deque<Integer> stack = new ArrayDeque<>();
+//        int n = heights.length;
+//        stack.push(-1);
+//        for (int i = 0; i <= n; i++) {
+//            int curHeight = i < n ? heights[i] : -1;
+//            while (stack.peek() != -1 && curHeight < heights[stack.peek()]) {
+//                int index = stack.pop();
+//                ans = Math.max(ans, heights[index] * (i - stack.peek() - 1));
+//            }
+//            stack.push(i);
+//        }
+//        return ans;
+//    }
+//}
 
-    public int top() {
-        return stack.peek()[0];
-    }
+//class Solution {
+//    public int findKthLargest(int[] nums, int k) {
+//        int left = 0, right = nums.length - 1;
+//        while (true) {
+//            int pivot = partition(nums, left, right);
+//            if (pivot == k - 1) return nums[pivot];
+//            if (pivot < k - 1) left = pivot + 1;
+//            else right = pivot - 1;
+//        }
+//    }
+//
+//    private int partition(int[] nums, int left, int right) {
+//        int pivot = nums[left];//取左边当锚点
+//        int originalPoint = left;
+//        left += 1;
+//        while (left <= right) {
+//            if (nums[left] < pivot && nums[right] > pivot) {
+//                int temp = nums[left];
+//                nums[left] = nums[right];
+//                nums[right] = temp;
+//                left++;
+//                right--;
+//            }
+//            if (nums[left] >= pivot) left++;
+//            if (nums[right] <= pivot) right--;
+//        }//递归完毕，
+//        int temp = nums[originalPoint];
+//        nums[originalPoint] = nums[right];
+//        nums[right] = temp;
+//        return right;
+//    }
+//}
 
-    public int getMin() {
-        return stack.peek()[1];
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+
     }
 }
