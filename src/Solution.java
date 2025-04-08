@@ -1479,21 +1479,46 @@ import java.util.*;
 //    }
 //}
 
-class Solution {
-    public boolean isValid(String s) {
-        Map<Character, Character> map = new HashMap<>();
-        map.put('{', '}');
-        map.put('(', ')');
-        map.put('[', ']');
-        Deque<Character> queue = new ArrayDeque<>();
-        for (char c : s.toCharArray()) {
-            if (map.containsKey(c)) queue.push(c);//是左符号，入栈
-            else {
-                char last = queue.pop();
-                if (!map.containsKey(last)) return false;//拿出来的是右符号
-                if (map.get(last) != c) return false;//左右符号不匹配
-            }
-        }
-        return queue.isEmpty();
+//class Solution {
+//    public boolean isValid(String s) {
+//        Map<Character, Character> map = new HashMap<>();
+//        map.put('{', '}');
+//        map.put('(', ')');
+//        map.put('[', ']');
+//        Deque<Character> queue = new ArrayDeque<>();
+//        for (char c : s.toCharArray()) {
+//            if (map.containsKey(c)) queue.push(c);//是左符号，入栈
+//            else {
+//                if (queue.isEmpty()) return false;
+//                char last = queue.pop();
+//                if (!map.containsKey(last)) return false;//拿出来的是右符号
+//                if (map.get(last) != c) return false;//左右符号不匹配
+//            }
+//        }
+//        return queue.isEmpty();
+//    }
+//}
+
+class MinStack {
+    private final Deque<int[]> stack = new ArrayDeque<>();
+
+    public MinStack() {
+        stack.push(new int[]{0, Integer.MAX_VALUE});
+    }
+
+    public void push(int val) {
+        stack.push(new int[]{val, Math.min(val, getMin())});
+    }
+
+    public void pop() {
+        stack.pop();
+    }
+
+    public int top() {
+        return stack.peek()[0];
+    }
+
+    public int getMin() {
+        return stack.peek()[1];
     }
 }
