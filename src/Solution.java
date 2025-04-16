@@ -1622,6 +1622,29 @@ import java.util.*;
 
 class Solution {
     public int[] topKFrequent(int[] nums, int k) {
+        Map<Integer, Integer> map = new HashMap<>();
+        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return map.get(o1) - map.get(o2);
+            }
+        });
 
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        for (int key : map.keySet()) {
+            if (priorityQueue.size() < k) {
+                priorityQueue.add(key);
+            } else {
+                priorityQueue.remove();
+                priorityQueue.add(key);
+            }
+        }
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = priorityQueue.remove();
+        }
+        return result;
     }
 }
