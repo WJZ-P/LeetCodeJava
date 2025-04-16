@@ -1620,31 +1620,60 @@ import java.util.*;
 //    }
 //}
 
-class Solution {
-    public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> map = new HashMap<>();
-        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return map.get(o1) - map.get(o2);
-            }
-        });
+//class Solution {
+//    public int[] topKFrequent(int[] nums, int k) {
+//        Map<Integer, Integer> map = new HashMap<>();
+//        PriorityQueue<Integer> priorityQueue = new PriorityQueue<>(new Comparator<Integer>() {
+//            @Override
+//            public int compare(Integer o1, Integer o2) {
+//                return map.get(o1) - map.get(o2);
+//            }
+//        });
+//
+//        for (int num : nums) {
+//            map.put(num, map.getOrDefault(num, 0) + 1);
+//        }
+//
+//        for (int key : map.keySet()) {
+//            if (priorityQueue.size() < k) {
+//                priorityQueue.add(key);
+//            } else {
+//                if (map.get(key) > map.get(priorityQueue.peek())) {
+//                    priorityQueue.remove();
+//                    priorityQueue.add(key);
+//                }
+//            }
+//        }
+//        int[] result = new int[k];
+//        for (int i = 0; i < k; i++) {
+//            result[i] = priorityQueue.remove();
+//        }
+//        return result;
+//    }
+//}
 
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        for (int key : map.keySet()) {
-            if (priorityQueue.size() < k) {
-                priorityQueue.add(key);
-            } else {
-                priorityQueue.remove();
-                priorityQueue.add(key);
-            }
-        }
-        int[] result = new int[k];
-        for (int i = 0; i < k; i++) {
-            result[i] = priorityQueue.remove();
-        }
-        return result;
-    }
-}
+//class MedianFinder {
+//    private PriorityQueue<Integer> minHeap = new PriorityQueue<>();//最小堆
+//    private PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+//
+//    //约定两边数量一样的时候，放在最小堆
+//    public MedianFinder() {
+//    }
+//
+//    public void addNum(int num) {
+//        if (minHeap.size() == maxHeap.size()) {
+//            maxHeap.add(num);
+//            minHeap.add(maxHeap.poll());
+//        } else {
+//            minHeap.offer(num);
+//            maxHeap.offer(minHeap.poll());
+//        }
+//    }
+//
+//    public double findMedian() {
+//        if (minHeap.size() == maxHeap.size()) {
+//            return (minHeap.peek() + maxHeap.peek()) / 2.0;
+//        } else return minHeap.peek();
+//    }
+//}
+
