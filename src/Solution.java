@@ -129,6 +129,7 @@
 //    }
 //}
 
+import java.beans.PropertyEditorSupport;
 import java.util.*;
 
 //class Solution {
@@ -1677,3 +1678,310 @@ import java.util.*;
 //    }
 //}
 
+//class Solution {
+//    public int maxProfit(int[] prices) {
+//        int cost = Integer.MAX_VALUE;
+//        int profit = 0;
+//        for (int price : prices) {
+//            cost = Math.min(cost, price);
+//            profit = Math.max(profit, price - cost);
+//        }
+//        return profit;
+//    }
+//}
+
+//class Solution {
+//    public boolean canJump(int[] nums) {
+//        int maxIndex = 0;
+//        for (int i = 0; i < nums.length; i++) {
+//            if (i > maxIndex) return false;
+//            maxIndex = Math.max(maxIndex, i + nums[i]);
+//        }
+//        return true;
+//    }
+//}
+
+//class Solution {
+//    public int jump(int[] nums) {
+//        int currentBridge = 0;
+//        int maxBridge = 0;
+//        int ans = 0;
+//        for (int i = 0; i < nums.length - 1; i++) {
+//            maxBridge = Math.max(maxBridge, i + nums[i]);
+//            if (i == currentBridge) {//到达最大长度，必须搭桥了
+//                currentBridge = maxBridge;
+//                ans++;
+//            }
+//
+//        }
+//        return ans;
+//    }
+//}
+
+//class Solution {
+//    public List<Integer> partitionLabels(String s) {
+//        int[] lastIndex = new int[26];
+//        List<Integer> ans = new ArrayList<>();
+//        for (int i = 0; i < s.length(); i++) {
+//            lastIndex[s.charAt(i) - 'a'] = i;
+//        }
+//        //遍历完毕，开始统计
+//        int start = 0, end = 0;
+//        for (int i = 0; i < s.length(); i++) {
+//            end = Math.max(end, lastIndex[s.charAt(i) - 'a']);
+//            if (end == i) {
+//                //说明当前可以合并区间了
+//                ans.add(end - start + 1);
+//                start = i + 1;
+//            }
+//        }
+//        return ans;
+//    }
+//}
+
+//class Solution {
+//    public int climbStairs(int n) {
+//        //这里用递归+状态计算
+//        int[] memory = new int[n + 1];
+//        return dfs(n, memory);
+//    }
+//
+//    private int dfs(int n, int[] memory) {
+//        if (n <= 1) return 1;
+//        if (memory[n] != 0) return memory[n];
+//        return memory[n] = dfs(n - 1, memory) + dfs(n - 2, memory);
+//    }
+//}
+
+//class Solution {
+//    public List<List<Integer>> generate(int numRows) {
+//        List<List<Integer>> ans = new ArrayList<>();
+//        ans.add(List.of(1));
+//        for (int i = 1; i < numRows; i++) {
+//            List<Integer> res = new ArrayList<>();
+//            res.add(1);
+//            for (int j = 1; j < i; j++) {
+//                res.add(ans.get(i - 1).get(j - 1) + ans.get(i - 1).get(j));
+//            }
+//            //最后一行还是1
+//            res.add(1);
+//            ans.add(res);
+//        }
+//        return ans;
+//    }
+//}
+
+//class Solution {
+//    private int[] memory;
+//    private int[] nums;
+//
+//    public int rob(int[] nums) {
+//        this.nums = nums;
+//        this.memory = new int[nums.length];
+//        Arrays.fill(memory, -1);
+//        return dfs(nums.length - 1);
+//    }
+//
+//    private int dfs(int n) {
+//        if (n < 0) return 0;
+//        else {
+//            if (memory[n] != -1) return memory[n];
+//            int res = Math.max(dfs(n - 1), dfs(n - 2) + nums[n]);
+//            return memory[n] = res;
+//        }
+//    }
+//}
+
+//class Solution {
+//    public int lengthOfLongestSubstring(String s) {
+//        Map<Character, Integer> map = new HashMap<>();
+//        int result = 0;
+//        int leftIndex = -1;
+//        for (int i = 0; i < s.length(); i++) {
+//            if (map.containsKey(s.charAt(i))) {
+//                leftIndex = Math.max(leftIndex, map.get(s.charAt(i)));
+//            }
+//            result = Math.max(result, i - leftIndex);
+//            map.put(s.charAt(i), i);
+//        }
+//        return result;
+//    }
+//}
+
+//class Solution {
+//    private static int[][] memory = new int[101][10001];
+//
+//    static {
+//        for (int[] mem : memory) {
+//            Arrays.fill(mem, -1);
+//        }
+//    }
+//
+//    public int numSquares(int n) {
+//        return dfs((int) Math.sqrt(n), n);
+//    }
+//
+//    public int dfs(int currentNum, int sum) {
+//        if (currentNum <= 0) {
+//            return sum == 0 ? 0 : Integer.MAX_VALUE;
+//        }
+//        if (memory[currentNum][sum] != -1) return memory[currentNum][sum];
+//        if (sum < currentNum * currentNum) {
+//            //当前的数字的平方已经大于总和了，只能不选当前数字了
+//            return memory[currentNum][sum] = dfs(currentNum - 1, sum);
+//        }
+//
+//        //下面开始递归，有两种情况，要么选当前的数字，要么不选。
+//        return memory[currentNum][sum] = Math.min(dfs(currentNum - 1, sum), dfs(currentNum, sum - currentNum * currentNum) + 1);
+//        //这里最后的+1非常关键！表示如果选了当前数字，那么就+1，作为结果的res处理。
+//    }
+//}
+
+//class Solution {
+//    private int[] coins;
+//    private int[] memory;
+//
+//    public int coinChange(int[] coins, int amount) {
+//        int[] dp = new int[amount + 1];
+//        Arrays.fill(dp, amount + 1);
+//        dp[0] = 0;//找零0块，不需要硬币。
+//        //开始遍历辣！
+//        for (int i = 0; i <= amount; i++) {
+//            //外层循环是对amount进行循环。
+//            for (int j = 0; j < coins.length; j++) {
+//                if (coins[j] <= i) {
+//                    //当前的这个硬币的面值小于要找零的钱钱
+//                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
+//                }
+//            }
+//        }
+//        return dp[amount] == amount + 1 ? -1 : dp[amount];
+//    }
+//
+//}
+
+//class Solution {
+//    public boolean wordBreak(String s, List<String> wordDict) {
+//        int leftIndex = 0;
+//        boolean isMatch = false;
+//        int maxWordLength = 0;
+//        for (String word : wordDict) {
+//            maxWordLength = Math.max(maxWordLength, word.length());
+//        }
+//
+//        //用set方便查找，hashmap应该也可以，但不需要键值对
+//        Set<String> set = new HashSet<>(wordDict);
+//        boolean[] canMatch = new boolean[s.length() + 1];
+//        canMatch[0] = true;//跟上一题一样，设置初始值
+//        for (int i = 1; i <= s.length(); i++) {//这里i相当于右边界，且是开区间
+//            for (int j = i - 1; j >= Math.max(0, i - maxWordLength); j--) {
+//                if (canMatch[j] && set.contains(s.substring(j, i))) {
+//                    //找到啦！
+//                    canMatch[i] = true;
+//                    break;
+//                }
+//            }
+//        }
+//        return canMatch[s.length()];
+//    }
+//}
+
+//第一题
+import java.util.Scanner;
+import java.util.*;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        // 注意 hasNext 和 hasNextLine 的区别
+
+        int T = in.nextInt(); //T组测试数据
+        for (int x = 0; x < T; x++) {
+            //这里是每一轮的测试数据
+
+            int n = in.nextInt();
+            long[] array = new long[n];
+            int minIndex = -1;
+            long minValue = Long.MAX_VALUE;
+            Map<Long, Integer> map = new HashMap<>();
+            for (int i = 0; i < n; i++) {
+                //这里录入数据
+                array[i] = in.nextLong();
+                if (array[i] < minValue) {
+                    minValue = array[i];
+                    minIndex = i;
+                }
+                map.put(array[i], i);//key存储值，value是输入时候的索引
+            }
+            //下面我们对数组去排个序
+            long[] sortedArray = new long[n];
+            for (int i = 0; i < n; i++) {
+                sortedArray[i] = array[i];
+            }
+            Arrays.sort(sortedArray);
+
+            int walkLeft = 0, walkRight = 0;
+            //数据录入完毕！并且找到了最小的元素的下标
+            int currentIndex = map.get(sortedArray[0]);
+            for (int i = 1; i < map.size(); i++) {
+                int newIndex = map.get(sortedArray[i]);
+                if (newIndex < currentIndex) walkLeft++;
+                else walkRight++;
+
+                currentIndex = newIndex;
+            }
+            System.out.println(walkRight + " " + walkLeft);
+        }
+    }
+}
+//第二题
+import java.util.Scanner;
+import java.util.*;
+
+// 注意类名必须为 Main, 不要有任何 package xxx 信息
+public class Main {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int t = in.nextInt();
+        for (int x = 0; x < t; x++) {
+            //t轮数据
+            int n = in.nextInt();
+            String s = in.nextLine();
+            s = in.nextLine();
+            //System.out.println("当前拿到的字符串是"+s);
+            char[] chars = s.toCharArray();
+            //对char进行排序？
+            char[] sortedChars = s.toCharArray();
+            Arrays.sort(sortedChars);
+            //创建一个哈希表，查看是否有重复出现的字母。
+            Map<Character, Integer> map = new HashMap<>();
+            boolean hasDuplicate = false;//看char里是否有重复出现过的字母，因为即使排序好也需要
+            //进行一次交换操作，因此如果没有重复出现的字母，进行交换是不能做到保序的。
+            for (char c : chars) {
+                if (!map.containsKey(c)) map.put(c, 1);
+                else {
+                    hasDuplicate = true;
+                    break;
+                }
+            }
+
+            int notMatch = 0;
+            for (int i = 0; i < n; i++) {
+                if (notMatch >= 3) break;
+                if (chars[i] != sortedChars[i]) notMatch++;
+            }
+            //判断
+            if(notMatch==0){
+                //说明排序前后是一致的，此时需要看是否有重复字母可以用来交换，没有的话就不行了
+                if(hasDuplicate) System.out.println("YES");
+                else System.out.println("NO");
+            }
+            else if(notMatch==2){
+                //排序前后，恰好两个顺序不一样，那么交换它们就行，所以是可以的。
+                System.out.println("YES");
+            }
+            else System.out.println("NO");//都不属于就不行了
+        }
+    }
+}
